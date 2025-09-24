@@ -1,0 +1,215 @@
+{
+  "user_profile": {
+    "name": "muhyadinmohamed",
+    "email": "muhyadin@totv.tech", 
+    "organization": "totv.tech",
+    "current_project": "embrr-wat-dev-fest-2025",
+    "project_org": "think-outside-the-valley",
+    "development_level": "intermediate_to_advanced",
+    "primary_languages": ["JavaScript", "Python", "Dart"],
+    "frameworks": ["React", "Node.js", "Flutter"]
+  },
+  
+  "music_automations": {
+    "smart_focus_music": {
+      "enabled": true,
+      "contexts": {
+        "coding": {
+          "volume": 60,
+          "keywords": ["github", "vscode", "cursor", "dev", "code", "programming", "localhost"],
+          "playlist_type": "upbeat_focus"
+        },
+        "focus": {
+          "volume": 45,
+          "keywords": ["docs", "reading", "research", "learning", "documentation"],
+          "playlist_type": "ambient_concentration"
+        },
+        "meetings": {
+          "volume": 25,
+          "keywords": ["zoom", "meet", "teams", "call", "webex"],
+          "playlist_type": "quiet_ambient"
+        },
+        "creative": {
+          "volume": 65,
+          "keywords": ["figma", "design", "adobe", "canva"],
+          "playlist_type": "inspiring"
+        },
+        "learning": {
+          "volume": 50,
+          "keywords": ["youtube", "tutorial", "course", "deepseek", "claude"],
+          "playlist_type": "instrumental_focus"
+        }
+      },
+      "base_volume": 53,
+      "preferred_genres": ["R&B", "Hip-Hop", "Alternative"],
+      "check_interval_seconds": 30
+    },
+    
+    "meeting_music_control": {
+      "enabled": true,
+      "action_on_meeting": "pause",
+      "resume_delay_seconds": 5,
+      "quiet_volume": 15,
+      "meeting_patterns": [
+        "zoom.us", "meet.google.com", "teams.microsoft.com", 
+        "webex.com", "skype.com", "whereby.com"
+      ]
+    }
+  },
+  
+  "web_automations": {
+    "tab_declutter": {
+      "enabled": true,
+      "auto_close_rules": {
+        "duplicates": true,
+        "old_searches": "after_30_minutes",
+        "youtube_watched": "after_1_hour",
+        "social_media": "limit_to_2_tabs"
+      },
+      "keep_patterns": [
+        "github.com/think-outside-the-valley",
+        "gmail.com", "docs.google.com", "drive.google.com"
+      ],
+      "grouping_rules": {
+        "development": ["github", "localhost", "stackblitz", "codesandbox"],
+        "productivity": ["gmail", "sheets", "drive", "calendar"],
+        "learning": ["youtube", "medium", "dev.to", "stackoverflow"],
+        "ai_tools": ["deepseek", "claude", "chatgpt", "copilot"]
+      }
+    },
+    
+    "research_assistant": {
+      "enabled": true,
+      "auto_open_docs": true,
+      "project_context": "embrr-wat-dev-fest-2025",
+      "related_technologies": ["React", "JavaScript", "Node.js", "Waterloo DevFest"]
+    }
+  },
+  
+  "file_automations": {
+    "download_organizer": {
+      "enabled": true,
+      "auto_sort": true,
+      "categories": {
+        "code": ["zip", "tar", "gz", "rar", "7z"],
+        "documents": ["pdf", "doc", "docx", "txt", "md"],
+        "images": ["jpg", "jpeg", "png", "gif", "svg", "webp"],
+        "data": ["csv", "json", "xml", "xlsx", "sql"],
+        "media": ["mp4", "avi", "mp3", "wav", "mov"]
+      }
+    },
+    
+    "project_starter": {
+      "enabled": true,
+      "templates": {
+        "react": {
+          "structure": ["src/", "public/", "components/", "utils/", "styles/"],
+          "files": ["package.json", "README.md", ".gitignore", "index.html"]
+        },
+        "node": {
+          "structure": ["src/", "routes/", "middleware/", "models/", "tests/"],
+          "files": ["package.json", "server.js", ".env.example", "README.md"]
+        },
+        "flutter": {
+          "structure": ["lib/", "assets/", "test/", "android/", "ios/"],
+          "files": ["pubspec.yaml", "README.md", "main.dart"]
+        }
+      }
+    }
+  },
+  
+  "development_automations": {
+    "code_health_checker": {
+      "enabled": true,
+      "analysis_types": ["error_patterns", "best_practices", "performance", "security"],
+      "learning_mode": true,
+      "generate_explanations": true
+    },
+    
+    "documentation_generator": {
+      "enabled": true,
+      "auto_generate": true,
+      "include_explanations": true,
+      "learning_notes": true,
+      "update_frequency": "weekly"
+    },
+    
+    "documentation_lookup": {
+      "enabled": true,
+      "detected_technologies": ["JavaScript", "React", "Node.js", "Python", "Flutter", "Dart"],
+      "auto_open_docs": true,
+      "preferred_sources": ["official_docs", "mdn", "stackoverflow"]
+    }
+  },
+  
+  "career_automations": {
+    "resume_builder": {
+      "enabled": true,
+      "template": "modern_developer",
+      "auto_update": true,
+      "sync_with_projects": true,
+      "extract_skills_from_code": true
+    },
+    
+    "portfolio_generator": {
+      "enabled": true,
+      "featured_project": "embrr-wat-dev-fest-2025",
+      "auto_generate": true,
+      "include_analytics": true,
+      "deploy_target": "github_pages"
+    },
+    
+    "application_tracker": {
+      "enabled": true,
+      "templates": ["cover_letter", "follow_up_email", "thank_you_note"],
+      "auto_tracking": true,
+      "reminder_system": true
+    }
+  },
+  
+  "innovation_automations": {
+    "idea_generator": {
+      "enabled": true,
+      "based_on_interests": ["AI/ML", "Web Development", "Mobile Apps", "DevTools"],
+      "market_research": true,
+      "trend_analysis": true,
+      "competitor_analysis": true
+    },
+    
+    "rapid_prototyping": {
+      "enabled": true,
+      "templates": ["mvp_webapp", "mobile_prototype", "api_service"],
+      "deployment_ready": true,
+      "demo_generation": true
+    }
+  },
+  
+  "workflow_automations": {
+    "work_session": {
+      "enabled": true,
+      "start_actions": [
+        "open_project_tabs", "start_focus_music", 
+        "create_daily_folder", "show_today_agenda"
+      ],
+      "end_actions": [
+        "save_session_tabs", "archive_work_files", 
+        "generate_summary", "cleanup_temp_files"
+      ]
+    },
+    
+    "schedule": {
+      "work_hours": "09:00-17:00",
+      "focus_blocks": ["10:00-12:00", "14:00-16:00"],
+      "break_reminders": true,
+      "end_of_day_cleanup": true
+    }
+  },
+  
+  "system_paths": {
+    "home": "/Users/muhyadinmohamed",
+    "downloads": "/Users/muhyadinmohamed/Downloads",
+    "documents": "/Users/muhyadinmohamed/Documents", 
+    "projects": "/Users/muhyadinmohamed/Projects",
+    "automation_suite": "/Users/muhyadinmohamed/automations-suite"
+  }
+}

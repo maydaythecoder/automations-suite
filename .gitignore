@@ -1,0 +1,32 @@
+# Environment Variables
+.env
+
+# macOS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+.cursorrules
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp
+
+# Personal data
+user_data/
+personal_notes/
+private_configs/
+
+# API keys and tokens
+api_keys.txt
+tokens.json
+credentials.json
+
+# Backup files
+*.bak
+*.backup
