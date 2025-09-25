@@ -1,0 +1,70 @@
+{
+  "id": "session_1758759691008_wnpg9",
+  "type": "test",
+  "start_time": "2025-09-25T00:21:31.008Z",
+  "status": "completed",
+  "actions_completed": [
+    {
+      "action": "open_project_tabs",
+      "completed_at": "2025-09-25T00:21:31.372Z",
+      "status": "success"
+    },
+    {
+      "action": "start_focus_music",
+      "completed_at": "2025-09-25T00:21:31.373Z",
+      "status": "success"
+    },
+    {
+      "action": "create_daily_folder",
+      "completed_at": "2025-09-25T00:21:31.374Z",
+      "status": "success"
+    },
+    {
+      "action": "show_today_agenda",
+      "completed_at": "2025-09-25T00:21:31.374Z",
+      "status": "success"
+    },
+    {
+      "action": "save_session_tabs",
+      "completed_at": "2025-09-25T00:21:31.693Z",
+      "status": "success"
+    },
+    {
+      "action": "archive_work_files",
+      "completed_at": "2025-09-25T00:21:31.694Z",
+      "status": "success"
+    },
+    {
+      "action": "generate_summary",
+      "completed_at": "2025-09-25T00:21:31.694Z",
+      "status": "success"
+    },
+    {
+      "action": "cleanup_temp_files",
+      "completed_at": "2025-09-25T00:21:31.761Z",
+      "status": "success"
+    }
+  ],
+  "tabs_saved": [
+    "https://www.youtube.com/watch?v=U_wsZq89RlM&list=TLPQMjQwOTIwMjUyKrNI5h8HGQ&index=2New Tab"
+  ],
+  "music_context": "smart_focus",
+  "project_context": null,
+  "daily_folder": "/Users/muhyadinmohamed/Documents/Work/2025-09-25",
+  "agenda_shown": true,
+  "end_time": "2025-09-25T00:21:31.428Z",
+  "files_archived": "/Users/muhyadinmohamed/Documents/Work/Archive/2025-09-25",
+  "summary": {
+    "session_id": "session_1758759691008_wnpg9",
+    "duration": "0h 0m",
+    "actions_completed": 6,
+    "tabs_saved": 1,
+    "music_context": "smart_focus",
+    "project_context": "embrr-wat-dev-fest-2025",
+    "productivity_score": 100,
+    "recommendations": [
+      "Save more tabs for better session continuity"
+    ]
+  },
+  "temp_files_cleaned": 2
+}
