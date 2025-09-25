@@ -139,12 +139,15 @@ class WebInterface {
         try {
             const MusicController = require('../music/smart-music-controller');
             const controller = new MusicController();
-            const context = await controller.detectContext();
+            const status = await controller.getStatus();
             return {
                 enabled: true,
-                currentContext: context,
-                isRunning: controller.isRunning,
-                contexts: Object.keys(controller.config)
+                currentContext: status.currentContext,
+                isRunning: status.isRunning,
+                currentTrack: status.currentTrack,
+                spotifyRunning: status.spotifyRunning,
+                contexts: status.availableContexts,
+                lastUpdate: status.lastUpdate
             };
         } catch (error) {
             return { enabled: false, error: error.message };

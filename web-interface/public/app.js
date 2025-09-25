@@ -215,6 +215,31 @@ class AutomationApp {
         if (this.systemStatus && this.systemStatus.automations.music) {
             this.updateMusicStatus(this.systemStatus.automations.music);
         }
+        
+        // Start periodic track updates if music is running
+        this.startMusicTrackUpdates();
+    }
+
+    startMusicTrackUpdates() {
+        // Clear existing interval
+        if (this.musicUpdateInterval) {
+            clearInterval(this.musicUpdateInterval);
+        }
+        
+        // Update music track every 10 seconds
+        this.musicUpdateInterval = setInterval(async () => {
+            if (this.currentSection === 'music' || this.currentSection === 'dashboard') {
+                try {
+                    const response = await fetch('/api/status');
+                    const status = await response.json();
+                    if (status.automations.music) {
+                        this.updateMusicStatus(status.automations.music);
+                    }
+                } catch (error) {
+                    console.error('Failed to update music status:', error);
+                }
+            }
+        }, 10000);
     }
 
     loadTabData() {
@@ -389,11 +414,30 @@ class AutomationApp {
                 </div>
             `;
         } else {
+            let statusText = `${status.isRunning ? 'Running' : 'Stopped'} - Context: ${status.currentContext}`;
+            let statusClass = status.isRunning ? 'connected' : 'disconnected';
+            
+            // Add Spotify status
+            if (status.spotifyRunning !== undefined) {
+                statusText += ` - Spotify: ${status.spotifyRunning ? 'Running' : 'Not Running'}`;
+            }
+            
+            // Add current track info
+            let trackInfo = '';
+            if (status.currentTrack) {
+                if (status.currentTrack.error) {
+                    trackInfo = `<div class="track-info error">❌ ${status.currentTrack.error}</div>`;
+                } else if (status.currentTrack.track) {
+                    trackInfo = `<div class="track-info">🎵 ${status.currentTrack.track}</div>`;
+                }
+            }
+            
             container.innerHTML = `
-                <div class="status-indicator ${status.isRunning ? 'connected' : 'disconnected'}">
+                <div class="status-indicator ${statusClass}">
                     <i class="fas fa-circle"></i>
-                    <span>${status.isRunning ? 'Running' : 'Stopped'} - Current: ${status.currentContext}</span>
+                    <span>${statusText}</span>
                 </div>
+                ${trackInfo}
             `;
         }
     }
@@ -1138,6 +1182,13 @@ class AutomationApp {
 
         container.appendChild(line);
         container.scrollTop = container.scrollHeight;
+    }
+
+    // Cleanup method
+    destroy() {
+        if (this.musicUpdateInterval) {
+            clearInterval(this.musicUpdateInterval);
+        }
     }
 }
 

@@ -63,6 +63,12 @@ class MiniTerminal {
                         example: 'music switch coding',
                         category: 'music',
                         parameters: ['coding', 'focus', 'meetings', 'creative']
+                    },
+                    {
+                        command: 'music status',
+                        description: 'Show current music status and track',
+                        example: 'music status',
+                        category: 'music'
                     }
                 ]
             },

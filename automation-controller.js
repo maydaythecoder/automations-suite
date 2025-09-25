@@ -114,7 +114,19 @@ class AutomationController {
                 return await switchController.manualSwitch(params[0] || 'default');
             case 'status':
                 const statusController = new music.controller();
-                return statusController.showStatus();
+                const status = await statusController.getStatus();
+                console.log('\n🎵 Music Status:');
+                console.log(`   Running: ${status.isRunning ? '✅ Yes' : '❌ No'}`);
+                console.log(`   Spotify: ${status.spotifyRunning ? '✅ Running' : '❌ Not Running'}`);
+                console.log(`   Context: ${status.currentContext}`);
+                if (status.currentTrack) {
+                    if (status.currentTrack.error) {
+                        console.log(`   Track: ❌ ${status.currentTrack.error}`);
+                    } else {
+                        console.log(`   Track: 🎵 ${status.currentTrack.track}`);
+                    }
+                }
+                return status;
             default:
                 console.log('Music commands: start, stop, switch <context>, status');
         }

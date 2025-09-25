@@ -7,6 +7,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const SpotifyIntegration = require('./spotify-integration');
 
 class SmartMusicController {
     constructor() {
@@ -14,6 +15,9 @@ class SmartMusicController {
         this.config = this.loadConfig();
         this.currentContext = 'default';
         this.isRunning = false;
+        this.spotify = new SpotifyIntegration();
+        this.currentTrack = null;
+        this.lastUpdate = null;
     }
 
     loadConfig() {
@@ -106,13 +110,21 @@ class SmartMusicController {
         console.log(`   Volume: ${contextConfig.volume}%`);
         console.log(`   Description: ${contextConfig.description}`);
         
-        // Here you would normally use Spotify MCP to:
-        // 1. Play the playlist
-        // 2. Set the volume
-        // 3. Handle any errors
+        // Use Spotify integration to actually switch
+        const result = await this.spotify.switchToContext(context);
         
-        this.currentContext = context;
-        return true;
+        if (result.success) {
+            this.currentContext = context;
+            // Update current track info
+            await this.updateCurrentTrack();
+            return true;
+        } else {
+            console.error(`❌ Failed to switch to ${context}: ${result.error}`);
+            if (result.suggestion) {
+                console.log(`💡 Suggestion: ${result.suggestion}`);
+            }
+            return false;
+        }
     }
 
     async startSmartMusic() {
@@ -122,13 +134,21 @@ class SmartMusicController {
         const context = await this.detectContext();
         console.log(`📊 Detected context: ${context}`);
         
-        await this.switchToContext(context);
+        const success = await this.switchToContext(context);
         
-        console.log('✅ Smart music is now active!');
-        console.log('   It will automatically switch based on your Chrome tabs.');
-        console.log('   Say "Stop smart music" to disable.');
+        if (success) {
+            console.log('✅ Smart music is now active!');
+            console.log('   It will automatically switch based on your Chrome tabs.');
+            console.log('   Say "Stop smart music" to disable.');
+            
+            // Show current track info
+            await this.updateCurrentTrack();
+            this.showCurrentTrack();
+        } else {
+            console.log('❌ Failed to start smart music. Check your Spotify configuration.');
+        }
         
-        return true;
+        return success;
     }
 
     async stopSmartMusic() {
@@ -143,11 +163,58 @@ class SmartMusicController {
         return await this.switchToContext(context);
     }
 
+    async updateCurrentTrack() {
+        try {
+            const trackInfo = await this.spotify.getCurrentTrack();
+            if (trackInfo.error) {
+                this.currentTrack = { error: trackInfo.error };
+            } else {
+                this.currentTrack = {
+                    track: trackInfo.track,
+                    context: this.currentContext,
+                    timestamp: new Date().toISOString()
+                };
+            }
+            this.lastUpdate = new Date();
+        } catch (error) {
+            this.currentTrack = { error: error.message };
+        }
+    }
+
+    showCurrentTrack() {
+        if (this.currentTrack) {
+            if (this.currentTrack.error) {
+                console.log(`🎵 Current Track: ❌ ${this.currentTrack.error}`);
+            } else {
+                console.log(`🎵 Current Track: ${this.currentTrack.track}`);
+                console.log(`   Context: ${this.currentTrack.context}`);
+            }
+        } else {
+            console.log('🎵 Current Track: No track information available');
+        }
+    }
+
+    async getStatus() {
+        await this.updateCurrentTrack();
+        return {
+            isRunning: this.isRunning,
+            currentContext: this.currentContext,
+            currentTrack: this.currentTrack,
+            spotifyRunning: this.spotify.isSpotifyRunning,
+            lastUpdate: this.lastUpdate,
+            availableContexts: Object.keys(this.config)
+        };
+    }
+
     showStatus() {
         console.log('\n🎵 Smart Music Status:');
         console.log(`   Running: ${this.isRunning ? '✅ Yes' : '❌ No'}`);
+        console.log(`   Spotify: ${this.spotify.isSpotifyRunning ? '✅ Running' : '❌ Not Running'}`);
         console.log(`   Current Context: ${this.currentContext}`);
         console.log(`   Available Contexts: ${Object.keys(this.config).join(', ')}`);
+        
+        // Show current track
+        this.showCurrentTrack();
         
         if (this.isRunning) {
             console.log('\n📊 Context Detection:');

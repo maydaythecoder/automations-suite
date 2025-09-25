@@ -341,6 +341,22 @@ body {
     gap: var(--spacing-sm);
 }
 
+.track-info {
+    margin-top: var(--spacing-sm);
+    padding: var(--spacing-sm);
+    background: var(--retro-bg-tertiary);
+    border: 1px solid var(--retro-accent-green);
+    font-size: 10px;
+    color: var(--retro-text-primary);
+    text-align: center;
+    font-family: 'Courier New', monospace;
+}
+
+.track-info.error {
+    border-color: var(--retro-accent-red);
+    color: var(--retro-accent-red);
+}
+
 /* Tab Controls */
 .tab-controls {
     display: grid;
