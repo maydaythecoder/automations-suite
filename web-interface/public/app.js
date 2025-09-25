@@ -172,6 +172,7 @@ class AutomationApp {
                 break;
             case 'music':
                 this.loadMusicData();
+                this.checkVisualizerStatus();
                 break;
             case 'tabs':
                 this.loadTabData();
@@ -221,6 +222,12 @@ class AutomationApp {
     loadMusicData() {
         if (this.systemStatus && this.systemStatus.automations.music) {
             this.updateMusicStatus(this.systemStatus.automations.music);
+            
+            // Auto-start visualizer if we have track data
+            if (this.systemStatus.automations.music.currentTrack && 
+                !this.systemStatus.automations.music.currentTrack.error) {
+                this.autoStartVisualizer(this.systemStatus.automations.music.currentTrack);
+            }
         }
         
         // Start periodic track updates if music is running
@@ -446,6 +453,11 @@ class AutomationApp {
                 </div>
                 ${trackInfo}
             `;
+
+            // Auto-restart visualizer with new track data
+            if (status.currentTrack && !status.currentTrack.error) {
+                this.autoStartVisualizer(status.currentTrack);
+            }
         }
     }
 
@@ -1607,6 +1619,121 @@ class AutomationApp {
         });
     }
 
+    // Music Visualizer Methods
+    async autoStartVisualizer(trackData) {
+        try {
+            // Start visualizer with track data
+            const visualizerResponse = await fetch('/api/music/visualizer/start', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(trackData)
+            });
+
+            const result = await visualizerResponse.json();
+            
+            if (result.success) {
+                this.updateVisualizerDisplay(result.visualization, true);
+            } else {
+                console.log('Failed to start visualizer:', result.error);
+                this.updateVisualizerDisplay(null, false);
+            }
+        } catch (error) {
+            console.log('Error starting visualizer:', error);
+            this.updateVisualizerDisplay(null, false);
+        }
+    }
+
+    async startVisualizer() {
+        try {
+            // Get current track data
+            const response = await fetch('/api/music/status');
+            const musicData = await response.json();
+            
+            if (musicData.error || !musicData.currentTrack) {
+                this.showToast('Error', 'No track data available for visualization', 'error');
+                return;
+            }
+
+            const trackData = musicData.currentTrack;
+            await this.autoStartVisualizer(trackData);
+            this.showToast('Success', 'Music visualizer started!', 'success');
+        } catch (error) {
+            this.showToast('Error', 'Failed to start visualizer', 'error');
+        }
+    }
+
+    async stopVisualizer() {
+        try {
+            const response = await fetch('/api/music/visualizer/stop', {
+                method: 'POST'
+            });
+
+            const result = await response.json();
+            
+            if (result.success) {
+                this.updateVisualizerDisplay(null, false);
+                this.showToast('Success', 'Music visualizer stopped', 'success');
+            } else {
+                this.showToast('Error', 'Failed to stop visualizer', 'error');
+            }
+        } catch (error) {
+            this.showToast('Error', 'Failed to stop visualizer', 'error');
+        }
+    }
+
+    updateVisualizerDisplay(visualization, isActive) {
+        const container = document.getElementById('visualizerContainer');
+        const statusElement = document.getElementById('visualizerStatus');
+        
+        if (isActive && visualization) {
+            container.innerHTML = `
+                <img src="${visualization}" alt="Music Visualization" class="visualizer-image">
+                <div class="visualizer-overlay"></div>
+            `;
+            container.parentElement.classList.add('visualizer-active');
+            
+            statusElement.innerHTML = `
+                <div class="status-indicator connected">
+                    <i class="fas fa-circle"></i>
+                    <span>VISUALIZER ACTIVE</span>
+                </div>
+            `;
+        } else {
+            container.innerHTML = `
+                <div class="visualizer-placeholder">
+                    <i class="fas fa-magic"></i>
+                    <p>Start the visualizer to see animated music visualization</p>
+                    <p class="visualizer-info">Analyzes track mood, tempo, and colors to create dynamic visuals</p>
+                </div>
+            `;
+            container.parentElement.classList.remove('visualizer-active');
+            
+            statusElement.innerHTML = `
+                <div class="status-indicator">
+                    <i class="fas fa-circle"></i>
+                    <span>VISUALIZER INACTIVE</span>
+                </div>
+            `;
+        }
+    }
+
+    async checkVisualizerStatus() {
+        try {
+            const response = await fetch('/api/music/visualizer/status');
+            const data = await response.json();
+            
+            if (data.isActive && data.visualization) {
+                this.updateVisualizerDisplay(data.visualization, true);
+            } else {
+                this.updateVisualizerDisplay(null, false);
+            }
+        } catch (error) {
+            // Silently handle errors for status checks
+        }
+    }
+
     // Cleanup method
     destroy() {
         if (this.musicUpdateInterval) {
@@ -1758,6 +1885,19 @@ function showRegisterForm() {
 function logoutUser() {
     if (window.automationApp) {
         window.automationApp.logoutUser();
+    }
+}
+
+// Visualizer global functions
+function startVisualizer() {
+    if (window.automationApp) {
+        window.automationApp.startVisualizer();
+    }
+}
+
+function stopVisualizer() {
+    if (window.automationApp) {
+        window.automationApp.stopVisualizer();
     }
 }
 

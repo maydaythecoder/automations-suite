@@ -211,6 +211,31 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="nes-container with-title">
+                            <p class="title"><i class="fas fa-magic"></i> MUSIC VISUALIZER</p>
+                            <div class="visualizer-controls">
+                                <div class="visualizer-buttons">
+                                    <button class="nes-btn is-error" onclick="stopVisualizer()">
+                                        <i class="fas fa-stop"></i>
+                                        STOP VISUALIZER
+                                    </button>
+                                </div>
+                                <div class="visualizer-status" id="visualizerStatus">
+                                    <div class="status-indicator connected">
+                                        <i class="fas fa-circle"></i>
+                                        <span>VISUALIZER ACTIVE</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="visualizer-container visualizer-active" id="visualizerContainer">
+                                <div class="visualizer-placeholder">
+                                    <i class="fas fa-magic"></i>
+                                    <p>Loading music visualization...</p>
+                                    <p class="visualizer-info">Analyzing track mood, tempo, and colors</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </section>
 

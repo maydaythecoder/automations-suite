@@ -14,6 +14,7 @@ const WalkthroughSystem = require('./walkthrough-system');
 const MiniTerminal = require('./mini-terminal');
 const UserManager = require('./user-management');
 const Marketplace = require('./marketplace');
+const MusicVisualizer = require('./music-visualizer');
 
 class WebInterface {
     constructor() {
@@ -24,6 +25,7 @@ class WebInterface {
         this.miniTerminal = new MiniTerminal();
         this.userManager = new UserManager();
         this.marketplace = new Marketplace();
+        this.musicVisualizer = new MusicVisualizer();
         this.setupMiddleware();
         this.setupRoutes();
         this.setupWebSocket();
@@ -876,6 +878,35 @@ class WebInterface {
             try {
                 const stats = this.marketplace.getMarketplaceStats();
                 res.json(stats);
+            } catch (error) {
+                res.status(500).json({ error: error.message });
+            }
+        });
+
+        // Music Visualizer routes
+        this.app.post('/api/music/visualizer/start', async (req, res) => {
+            try {
+                const trackData = req.body;
+                const visualization = await this.musicVisualizer.startVisualization(trackData);
+                res.json({ success: true, visualization });
+            } catch (error) {
+                res.status(500).json({ error: error.message });
+            }
+        });
+
+        this.app.post('/api/music/visualizer/stop', (req, res) => {
+            try {
+                this.musicVisualizer.stopVisualization();
+                res.json({ success: true });
+            } catch (error) {
+                res.status(500).json({ error: error.message });
+            }
+        });
+
+        this.app.get('/api/music/visualizer/status', (req, res) => {
+            try {
+                const data = this.musicVisualizer.getVisualizationData();
+                res.json(data);
             } catch (error) {
                 res.status(500).json({ error: error.message });
             }
