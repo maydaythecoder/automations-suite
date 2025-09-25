@@ -10,12 +10,16 @@ const path = require('path');
 const fs = require('fs');
 const { execSync } = require('child_process');
 const AutomationController = require('../automation-controller');
+const WalkthroughSystem = require('./walkthrough-system');
+const MiniTerminal = require('./mini-terminal');
 
 class WebInterface {
     constructor() {
         this.app = express();
         this.port = process.env.PORT || 3000;
         this.automationController = new AutomationController();
+        this.walkthroughSystem = new WalkthroughSystem();
+        this.miniTerminal = new MiniTerminal();
         this.setupMiddleware();
         this.setupRoutes();
         this.setupWebSocket();
@@ -445,6 +449,150 @@ class WebInterface {
                 const { type } = req.params;
                 const analytics = await this.getAnalytics(type);
                 res.json(analytics);
+            } catch (error) {
+                res.status(500).json({ error: error.message });
+            }
+        });
+
+        // Walkthrough routes
+        this.app.get('/api/walkthroughs', (req, res) => {
+            try {
+                const walkthroughs = this.walkthroughSystem.getAvailableWalkthroughs();
+                res.json(walkthroughs);
+            } catch (error) {
+                res.status(500).json({ error: error.message });
+            }
+        });
+
+        this.app.post('/api/walkthroughs/:id/start', (req, res) => {
+            try {
+                const { id } = req.params;
+                const walkthrough = this.walkthroughSystem.startWalkthrough(id);
+                res.json(walkthrough);
+            } catch (error) {
+                res.status(500).json({ error: error.message });
+            }
+        });
+
+        this.app.get('/api/walkthroughs/current', (req, res) => {
+            try {
+                const currentStep = this.walkthroughSystem.getCurrentStep();
+                res.json(currentStep);
+            } catch (error) {
+                res.status(500).json({ error: error.message });
+            }
+        });
+
+        this.app.post('/api/walkthroughs/next', (req, res) => {
+            try {
+                const nextStep = this.walkthroughSystem.nextStep();
+                res.json(nextStep);
+            } catch (error) {
+                res.status(500).json({ error: error.message });
+            }
+        });
+
+        this.app.post('/api/walkthroughs/previous', (req, res) => {
+            try {
+                const previousStep = this.walkthroughSystem.previousStep();
+                res.json(previousStep);
+            } catch (error) {
+                res.status(500).json({ error: error.message });
+            }
+        });
+
+        this.app.post('/api/walkthroughs/skip', (req, res) => {
+            try {
+                const result = this.walkthroughSystem.skipWalkthrough();
+                res.json({ skipped: true, result });
+            } catch (error) {
+                res.status(500).json({ error: error.message });
+            }
+        });
+
+        this.app.get('/api/walkthroughs/progress', (req, res) => {
+            try {
+                const progress = this.walkthroughSystem.getProgress();
+                res.json(progress);
+            } catch (error) {
+                res.status(500).json({ error: error.message });
+            }
+        });
+
+        // Mini Terminal routes
+        this.app.get('/api/terminal/suggestions', (req, res) => {
+            try {
+                const { q } = req.query;
+                const suggestions = this.miniTerminal.getSuggestions(q || '');
+                res.json(suggestions);
+            } catch (error) {
+                res.status(500).json({ error: error.message });
+            }
+        });
+
+        this.app.get('/api/terminal/commands', (req, res) => {
+            try {
+                const { category } = req.query;
+                const commands = category ? 
+                    this.miniTerminal.getCommandsByCategory(category) : 
+                    this.miniTerminal.getAllCommands();
+                res.json(commands);
+            } catch (error) {
+                res.status(500).json({ error: error.message });
+            }
+        });
+
+        this.app.get('/api/terminal/categories', (req, res) => {
+            try {
+                const categories = this.miniTerminal.getCategories();
+                res.json(categories);
+            } catch (error) {
+                res.status(500).json({ error: error.message });
+            }
+        });
+
+        this.app.post('/api/terminal/execute', async (req, res) => {
+            try {
+                const { command } = req.body;
+                const result = await this.miniTerminal.executeCommand(command);
+                res.json(result);
+            } catch (error) {
+                res.status(500).json({ error: error.message });
+            }
+        });
+
+        this.app.get('/api/terminal/history', (req, res) => {
+            try {
+                const history = this.miniTerminal.getCommandHistory();
+                res.json(history);
+            } catch (error) {
+                res.status(500).json({ error: error.message });
+            }
+        });
+
+        this.app.get('/api/terminal/quick-commands', (req, res) => {
+            try {
+                const quickCommands = this.miniTerminal.getQuickCommands();
+                res.json(quickCommands);
+            } catch (error) {
+                res.status(500).json({ error: error.message });
+            }
+        });
+
+        this.app.get('/api/terminal/recent', (req, res) => {
+            try {
+                const recentCommands = this.miniTerminal.getRecentCommands();
+                res.json(recentCommands);
+            } catch (error) {
+                res.status(500).json({ error: error.message });
+            }
+        });
+
+        this.app.get('/api/terminal/help/:command', (req, res) => {
+            try {
+                const { command } = req.params;
+                const help = this.miniTerminal.getCommandHelp(command);
+                res.json(help);
             } catch (error) {
                 res.status(500).json({ error: error.message });
             }

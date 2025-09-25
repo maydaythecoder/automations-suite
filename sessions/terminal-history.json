@@ -1,0 +1,77 @@
+[
+  {
+    "command": "music start",
+    "timestamp": "2025-09-25T00:59:57.380Z",
+    "success": true
+  },
+  {
+    "command": "music start",
+    "timestamp": "2025-09-25T00:59:57.063Z",
+    "success": true
+  },
+  {
+    "command": "music start",
+    "timestamp": "2025-09-25T00:59:56.847Z",
+    "success": true
+  },
+  {
+    "command": "music start",
+    "timestamp": "2025-09-25T00:59:56.595Z",
+    "success": true
+  },
+  {
+    "command": "music start",
+    "timestamp": "2025-09-25T00:59:55.863Z",
+    "success": true
+  },
+  {
+    "command": "music start",
+    "timestamp": "2025-09-25T00:59:54.995Z",
+    "success": true
+  },
+  {
+    "command": "tabs declutter",
+    "timestamp": "2025-09-25T00:59:54.230Z",
+    "success": true
+  },
+  {
+    "command": "ideas generate",
+    "timestamp": "2025-09-25T00:59:51.478Z",
+    "success": true
+  },
+  {
+    "command": "ideas generate",
+    "timestamp": "2025-09-25T00:59:44.498Z",
+    "success": true
+  },
+  {
+    "command": "status",
+    "timestamp": "2025-09-25T00:59:43.079Z",
+    "success": true
+  },
+  {
+    "command": "code analyze",
+    "timestamp": "2025-09-25T00:59:40.084Z",
+    "success": true
+  },
+  {
+    "command": "session start focus",
+    "timestamp": "2025-09-25T00:59:31.298Z",
+    "success": true
+  },
+  {
+    "command": "tabs declutter",
+    "timestamp": "2025-09-25T00:59:27.029Z",
+    "success": true
+  },
+  {
+    "command": "tabs declutter",
+    "timestamp": "2025-09-25T00:59:21.930Z",
+    "success": true
+  },
+  {
+    "command": "help",
+    "timestamp": "2025-09-25T00:59:14.315Z",
+    "success": true
+  }
+]

@@ -23,6 +23,14 @@
                         <i class="fas fa-circle"></i>
                         <span>CONNECTING...</span>
                     </div>
+                    <button class="nes-btn is-success" id="walkthroughBtn">
+                        <i class="fas fa-graduation-cap"></i>
+                        WALKTHROUGH
+                    </button>
+                    <button class="nes-btn is-warning" id="terminalBtn">
+                        <i class="fas fa-terminal"></i>
+                        TERMINAL
+                    </button>
                     <button class="nes-btn is-primary" id="settingsBtn">
                         <i class="fas fa-cog"></i>
                         SETTINGS
@@ -67,6 +75,10 @@
                     <a href="#analytics" class="nav-item" data-section="analytics">
                         <i class="fas fa-chart-line"></i>
                         <span>ANALYTICS</span>
+                    </a>
+                    <a href="#help" class="nav-item" data-section="help">
+                        <i class="fas fa-question-circle"></i>
+                        <span>HELP & COMMANDS</span>
                     </a>
                 </nav>
             </aside>
@@ -431,6 +443,118 @@
                         </div>
                     </div>
                 </section>
+
+                <!-- Help & Commands Section -->
+                <section id="help" class="section">
+                    <div class="section-header">
+                        <h2>HELP & COMMANDS</h2>
+                        <p>COMPREHENSIVE GUIDE TO ALL AUTOMATION COMMANDS</p>
+                    </div>
+
+                    <div class="help-controls">
+                        <div class="nes-container with-title">
+                            <p class="title"><i class="fas fa-book"></i> COMMAND REFERENCE</p>
+                            <div class="command-categories" id="commandCategories">
+                                <!-- Will be populated by JavaScript -->
+                            </div>
+                        </div>
+
+                        <div class="nes-container with-title">
+                            <p class="title"><i class="fas fa-lightbulb"></i> QUICK START GUIDE</p>
+                            <div class="quick-start-guide">
+                                <div class="guide-step">
+                                    <h4>1. START WITH MUSIC AUTOMATION</h4>
+                                    <p>Begin by starting smart music to enhance your focus:</p>
+                                    <code>music start</code>
+                                </div>
+                                <div class="guide-step">
+                                    <h4>2. ORGANIZE YOUR TABS</h4>
+                                    <p>Clean up your browser tabs for better focus:</p>
+                                    <code>tabs declutter standard</code>
+                                </div>
+                                <div class="guide-step">
+                                    <h4>3. START A WORK SESSION</h4>
+                                    <p>Begin tracking your productivity:</p>
+                                    <code>session start focus</code>
+                                </div>
+                                <div class="guide-step">
+                                    <h4>4. ANALYZE YOUR CODE</h4>
+                                    <p>Get insights on your projects:</p>
+                                    <code>code analyze ./my-project</code>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="nes-container with-title">
+                            <p class="title"><i class="fas fa-keyboard"></i> KEYBOARD SHORTCUTS</p>
+                            <div class="shortcuts-grid">
+                                <div class="shortcut-item">
+                                    <kbd>Ctrl + 1</kbd>
+                                    <span>Dashboard</span>
+                                </div>
+                                <div class="shortcut-item">
+                                    <kbd>Ctrl + 2</kbd>
+                                    <span>Music Control</span>
+                                </div>
+                                <div class="shortcut-item">
+                                    <kbd>Ctrl + 3</kbd>
+                                    <span>Tab Management</span>
+                                </div>
+                                <div class="shortcut-item">
+                                    <kbd>Ctrl + 4</kbd>
+                                    <span>Code Analysis</span>
+                                </div>
+                                <div class="shortcut-item">
+                                    <kbd>Ctrl + 5</kbd>
+                                    <span>Resume Builder</span>
+                                </div>
+                                <div class="shortcut-item">
+                                    <kbd>Ctrl + 6</kbd>
+                                    <span>App Ideas</span>
+                                </div>
+                                <div class="shortcut-item">
+                                    <kbd>Ctrl + 7</kbd>
+                                    <span>Work Sessions</span>
+                                </div>
+                                <div class="shortcut-item">
+                                    <kbd>Ctrl + 8</kbd>
+                                    <span>Analytics</span>
+                                </div>
+                                <div class="shortcut-item">
+                                    <kbd>Ctrl + 9</kbd>
+                                    <span>Help & Commands</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="nes-container with-title">
+                            <p class="title"><i class="fas fa-terminal"></i> TERMINAL COMMANDS</p>
+                            <div class="terminal-help">
+                                <p>Use the Mini Terminal (click TERMINAL button) to execute commands directly:</p>
+                                <div class="command-examples">
+                                    <div class="example-group">
+                                        <h5>Music Commands</h5>
+                                        <code>music start</code> - Start smart music automation<br>
+                                        <code>music stop</code> - Stop music automation<br>
+                                        <code>music switch coding</code> - Switch to coding context
+                                    </div>
+                                    <div class="example-group">
+                                        <h5>Tab Commands</h5>
+                                        <code>tabs declutter gentle</code> - Gentle tab cleanup<br>
+                                        <code>tabs declutter aggressive</code> - Aggressive cleanup<br>
+                                        <code>tabs group</code> - Group similar tabs
+                                    </div>
+                                    <div class="example-group">
+                                        <h5>Session Commands</h5>
+                                        <code>session start focus</code> - Start focus session<br>
+                                        <code>session start creative</code> - Start creative session<br>
+                                        <code>session end</code> - End current session
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
             </div>
         </main>
     </div>
@@ -448,6 +572,111 @@
 
     <!-- Toast Notifications -->
     <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Walkthrough Modal -->
+    <div class="modal-overlay" id="walkthroughModal">
+        <div class="modal-content walkthrough-modal">
+            <div class="modal-header">
+                <h3 id="walkthroughTitle">WALKTHROUGH</h3>
+                <button class="modal-close" id="walkthroughClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Walkthrough Selection -->
+                <div id="walkthroughSelection" class="walkthrough-selection">
+                    <h4>CHOOSE A WALKTHROUGH</h4>
+                    <div class="walkthrough-list" id="walkthroughList">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Walkthrough Progress -->
+                <div id="walkthroughProgress" class="walkthrough-progress" style="display: none;">
+                    <div class="progress-header">
+                        <div class="progress-info">
+                            <span id="walkthroughStepTitle">STEP TITLE</span>
+                            <span id="walkthroughStepCounter">1 / 10</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="walkthroughProgressFill"></div>
+                        </div>
+                    </div>
+                    <div class="step-content">
+                        <p id="walkthroughStepDescription">Step description will appear here.</p>
+                        <div class="step-actions">
+                            <button class="nes-btn" id="walkthroughPrevious">
+                                <i class="fas fa-arrow-left"></i>
+                                PREVIOUS
+                            </button>
+                            <button class="nes-btn is-primary" id="walkthroughNext">
+                                NEXT
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                            <button class="nes-btn is-error" id="walkthroughSkip">
+                                <i class="fas fa-forward"></i>
+                                SKIP
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mini Terminal Modal -->
+    <div class="modal-overlay" id="terminalModal">
+        <div class="modal-content terminal-modal">
+            <div class="modal-header">
+                <h3><i class="fas fa-terminal"></i> MINI TERMINAL</h3>
+                <button class="modal-close" id="terminalClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="terminal-container">
+                    <!-- Terminal Output -->
+                    <div class="terminal-output" id="terminalOutput">
+                        <div class="terminal-line">
+                            <span class="terminal-prompt">automation-suite@localhost:~$</span>
+                            <span class="terminal-text">Welcome to Automation Suite Terminal</span>
+                        </div>
+                        <div class="terminal-line">
+                            <span class="terminal-prompt">automation-suite@localhost:~$</span>
+                            <span class="terminal-text">Type 'help' for available commands</span>
+                        </div>
+                    </div>
+
+                    <!-- Terminal Input -->
+                    <div class="terminal-input-container">
+                        <span class="terminal-prompt">automation-suite@localhost:~$</span>
+                        <input type="text" class="terminal-input" id="terminalInput" placeholder="Enter command...">
+                    </div>
+
+                    <!-- Command Suggestions -->
+                    <div class="terminal-suggestions" id="terminalSuggestions">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+
+                    <!-- Quick Commands -->
+                    <div class="terminal-quick-commands">
+                        <h4>QUICK COMMANDS</h4>
+                        <div class="quick-command-grid" id="quickCommandGrid">
+                            <!-- Will be populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Command History -->
+                    <div class="terminal-history">
+                        <h4>RECENT COMMANDS</h4>
+                        <div class="history-list" id="historyList">
+                            <!-- Will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.js"></script>

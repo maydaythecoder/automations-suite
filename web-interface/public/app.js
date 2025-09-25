@@ -7,6 +7,9 @@ class AutomationApp {
         this.socket = null;
         this.currentSection = 'dashboard';
         this.systemStatus = null;
+        this.currentWalkthrough = null;
+        this.currentStep = null;
+        this.terminalHistory = [];
         this.init();
     }
 
@@ -14,6 +17,8 @@ class AutomationApp {
         this.setupSocket();
         this.setupEventListeners();
         this.setupNavigation();
+        this.setupWalkthrough();
+        this.setupTerminal();
         this.loadInitialData();
     }
 
@@ -51,6 +56,18 @@ class AutomationApp {
         document.getElementById('settingsBtn').addEventListener('click', () => {
             this.playSound('click');
             this.showToast('Settings', 'Settings panel coming soon!', 'info');
+        });
+
+        // Walkthrough button
+        document.getElementById('walkthroughBtn').addEventListener('click', () => {
+            this.playSound('click');
+            this.showWalkthroughModal();
+        });
+
+        // Terminal button
+        document.getElementById('terminalBtn').addEventListener('click', () => {
+            this.playSound('click');
+            this.showTerminalModal();
         });
 
         // Add click sounds to all buttons
@@ -95,6 +112,10 @@ class AutomationApp {
                     case '8':
                         e.preventDefault();
                         this.showSection('analytics');
+                        break;
+                    case '9':
+                        e.preventDefault();
+                        this.showSection('help');
                         break;
                 }
             }
@@ -166,6 +187,9 @@ class AutomationApp {
             case 'analytics':
                 this.loadAnalyticsData();
                 break;
+            case 'help':
+                this.loadHelpData();
+                break;
         }
     }
 
@@ -225,6 +249,53 @@ class AutomationApp {
 
     loadAnalyticsData() {
         this.showAnalyticsTab('music');
+    }
+
+    async loadHelpData() {
+        try {
+            const response = await fetch('/api/terminal/categories');
+            const categories = await response.json();
+            this.loadCommandCategories(categories);
+        } catch (error) {
+            console.error('Failed to load help data:', error);
+        }
+    }
+
+    loadCommandCategories(categories) {
+        const container = document.getElementById('commandCategories');
+        container.innerHTML = '';
+
+        categories.forEach(category => {
+            const categoryDiv = document.createElement('div');
+            categoryDiv.className = 'command-category';
+            categoryDiv.innerHTML = `
+                <h5>${category.category}</h5>
+                <p>${category.description}</p>
+                <div class="command-list" style="display: none;">
+                    ${category.commands.map(cmd => `
+                        <div class="command-item">
+                            <span class="command">${cmd.command}</span>
+                            <span class="description">${cmd.description}</span>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+
+            categoryDiv.addEventListener('click', () => {
+                const commandList = categoryDiv.querySelector('.command-list');
+                const isVisible = commandList.style.display !== 'none';
+                
+                // Hide all other command lists
+                container.querySelectorAll('.command-list').forEach(list => {
+                    list.style.display = 'none';
+                });
+                
+                // Toggle current command list
+                commandList.style.display = isVisible ? 'none' : 'flex';
+            });
+
+            container.appendChild(categoryDiv);
+        });
     }
 
     updateConnectionStatus(status) {
@@ -663,6 +734,410 @@ class AutomationApp {
                 oscillator.stop(ctx.currentTime + 0.05);
                 break;
         }
+    }
+
+    // Walkthrough Methods
+    setupWalkthrough() {
+        // Walkthrough modal close
+        document.getElementById('walkthroughClose').addEventListener('click', () => {
+            this.hideWalkthroughModal();
+        });
+
+        // Walkthrough navigation
+        document.getElementById('walkthroughNext').addEventListener('click', () => {
+            this.nextWalkthroughStep();
+        });
+
+        document.getElementById('walkthroughPrevious').addEventListener('click', () => {
+            this.previousWalkthroughStep();
+        });
+
+        document.getElementById('walkthroughSkip').addEventListener('click', () => {
+            this.skipWalkthrough();
+        });
+
+        // Close modal when clicking outside
+        document.getElementById('walkthroughModal').addEventListener('click', (e) => {
+            if (e.target.id === 'walkthroughModal') {
+                this.hideWalkthroughModal();
+            }
+        });
+    }
+
+    async showWalkthroughModal() {
+        const modal = document.getElementById('walkthroughModal');
+        modal.classList.add('show');
+        
+        try {
+            const response = await fetch('/api/walkthroughs');
+            const walkthroughs = await response.json();
+            this.loadWalkthroughList(walkthroughs);
+        } catch (error) {
+            this.showToast('Error', 'Failed to load walkthroughs', 'error');
+        }
+    }
+
+    hideWalkthroughModal() {
+        const modal = document.getElementById('walkthroughModal');
+        modal.classList.remove('show');
+    }
+
+    loadWalkthroughList(walkthroughs) {
+        const container = document.getElementById('walkthroughList');
+        container.innerHTML = '';
+
+        walkthroughs.forEach(walkthrough => {
+            const item = document.createElement('div');
+            item.className = 'walkthrough-item';
+            if (walkthrough.completed) {
+                item.classList.add('completed');
+            }
+
+            item.innerHTML = `
+                <h5>${walkthrough.title}</h5>
+                <p>${walkthrough.description}</p>
+                <div class="walkthrough-meta">
+                    <span>⏱️ ${walkthrough.estimatedTime}</span>
+                    <span>📊 ${walkthrough.difficulty}</span>
+                    <span>📝 ${walkthrough.totalSteps} steps</span>
+                </div>
+            `;
+
+            item.addEventListener('click', () => {
+                this.startWalkthrough(walkthrough.id);
+            });
+
+            container.appendChild(item);
+        });
+    }
+
+    async startWalkthrough(walkthroughId) {
+        try {
+            const response = await fetch(`/api/walkthroughs/${walkthroughId}/start`, {
+                method: 'POST'
+            });
+            const walkthrough = await response.json();
+            
+            this.currentWalkthrough = walkthroughId;
+            this.showWalkthroughProgress();
+            this.loadCurrentStep();
+        } catch (error) {
+            this.showToast('Error', 'Failed to start walkthrough', 'error');
+        }
+    }
+
+    showWalkthroughProgress() {
+        document.getElementById('walkthroughSelection').style.display = 'none';
+        document.getElementById('walkthroughProgress').style.display = 'block';
+    }
+
+    async loadCurrentStep() {
+        try {
+            const response = await fetch('/api/walkthroughs/current');
+            const step = await response.json();
+            
+            if (step) {
+                this.currentStep = step;
+                this.updateWalkthroughStep(step);
+            } else {
+                this.completeWalkthrough();
+            }
+        } catch (error) {
+            this.showToast('Error', 'Failed to load walkthrough step', 'error');
+        }
+    }
+
+    updateWalkthroughStep(step) {
+        document.getElementById('walkthroughStepTitle').textContent = step.title;
+        document.getElementById('walkthroughStepDescription').textContent = step.content;
+        document.getElementById('walkthroughStepCounter').textContent = `${step.stepNumber} / ${step.totalSteps}`;
+        
+        const progressFill = document.getElementById('walkthroughProgressFill');
+        const progress = (step.stepNumber / step.totalSteps) * 100;
+        progressFill.style.width = `${progress}%`;
+
+        // Highlight target element if it exists
+        if (step.target) {
+            this.highlightElement(step.target);
+        }
+    }
+
+    highlightElement(selector) {
+        // Remove previous highlights
+        document.querySelectorAll('.walkthrough-highlight').forEach(el => {
+            el.classList.remove('walkthrough-highlight');
+        });
+
+        const element = document.querySelector(selector);
+        if (element) {
+            element.classList.add('walkthrough-highlight');
+            element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }
+
+    async nextWalkthroughStep() {
+        try {
+            const response = await fetch('/api/walkthroughs/next', {
+                method: 'POST'
+            });
+            const step = await response.json();
+            
+            if (step) {
+                this.currentStep = step;
+                this.updateWalkthroughStep(step);
+            } else {
+                this.completeWalkthrough();
+            }
+        } catch (error) {
+            this.showToast('Error', 'Failed to advance walkthrough', 'error');
+        }
+    }
+
+    async previousWalkthroughStep() {
+        try {
+            const response = await fetch('/api/walkthroughs/previous', {
+                method: 'POST'
+            });
+            const step = await response.json();
+            
+            if (step) {
+                this.currentStep = step;
+                this.updateWalkthroughStep(step);
+            }
+        } catch (error) {
+            this.showToast('Error', 'Failed to go back in walkthrough', 'error');
+        }
+    }
+
+    async skipWalkthrough() {
+        try {
+            await fetch('/api/walkthroughs/skip', {
+                method: 'POST'
+            });
+            this.completeWalkthrough();
+        } catch (error) {
+            this.showToast('Error', 'Failed to skip walkthrough', 'error');
+        }
+    }
+
+    completeWalkthrough() {
+        this.showToast('Success', 'Walkthrough completed!', 'success');
+        this.hideWalkthroughModal();
+        this.currentWalkthrough = null;
+        this.currentStep = null;
+    }
+
+    // Terminal Methods
+    setupTerminal() {
+        // Terminal modal close
+        document.getElementById('terminalClose').addEventListener('click', () => {
+            this.hideTerminalModal();
+        });
+
+        // Terminal input
+        const terminalInput = document.getElementById('terminalInput');
+        terminalInput.addEventListener('keydown', (e) => {
+            this.handleTerminalKeydown(e);
+        });
+
+        terminalInput.addEventListener('input', (e) => {
+            this.handleTerminalInput(e);
+        });
+
+        // Close modal when clicking outside
+        document.getElementById('terminalModal').addEventListener('click', (e) => {
+            if (e.target.id === 'terminalModal') {
+                this.hideTerminalModal();
+            }
+        });
+
+        // Load terminal data
+        this.loadTerminalData();
+    }
+
+    async showTerminalModal() {
+        const modal = document.getElementById('terminalModal');
+        modal.classList.add('show');
+        
+        // Focus on input
+        setTimeout(() => {
+            document.getElementById('terminalInput').focus();
+        }, 100);
+    }
+
+    hideTerminalModal() {
+        const modal = document.getElementById('terminalModal');
+        modal.classList.remove('show');
+    }
+
+    async loadTerminalData() {
+        try {
+            // Load quick commands
+            const quickResponse = await fetch('/api/terminal/quick-commands');
+            const quickCommands = await quickResponse.json();
+            this.loadQuickCommands(quickCommands);
+
+            // Load recent commands
+            const recentResponse = await fetch('/api/terminal/recent');
+            const recentCommands = await recentResponse.json();
+            this.loadRecentCommands(recentCommands);
+        } catch (error) {
+            console.error('Failed to load terminal data:', error);
+        }
+    }
+
+    loadQuickCommands(commands) {
+        const container = document.getElementById('quickCommandGrid');
+        container.innerHTML = '';
+
+        commands.forEach(cmd => {
+            const item = document.createElement('div');
+            item.className = 'quick-command-item';
+            item.innerHTML = `
+                <span class="icon">${cmd.icon}</span>
+                <div>${cmd.description}</div>
+            `;
+
+            item.addEventListener('click', () => {
+                this.executeTerminalCommand(cmd.command);
+            });
+
+            container.appendChild(item);
+        });
+    }
+
+    loadRecentCommands(commands) {
+        const container = document.getElementById('historyList');
+        container.innerHTML = '';
+
+        commands.forEach(cmd => {
+            const item = document.createElement('div');
+            item.className = 'history-item';
+            item.innerHTML = `
+                <span class="command">${cmd.command}</span>
+                <span class="status ${cmd.success ? 'success' : 'error'}">
+                    ${cmd.success ? 'SUCCESS' : 'ERROR'}
+                </span>
+            `;
+
+            item.addEventListener('click', () => {
+                document.getElementById('terminalInput').value = cmd.command;
+            });
+
+            container.appendChild(item);
+        });
+    }
+
+    handleTerminalKeydown(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            const command = e.target.value.trim();
+            if (command) {
+                this.executeTerminalCommand(command);
+                e.target.value = '';
+            }
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            // Navigate command history
+        } else if (e.key === 'Tab') {
+            e.preventDefault();
+            // Auto-complete
+        }
+    }
+
+    async handleTerminalInput(e) {
+        const query = e.target.value;
+        if (query.length > 0) {
+            try {
+                const response = await fetch(`/api/terminal/suggestions?q=${encodeURIComponent(query)}`);
+                const suggestions = await response.json();
+                this.showCommandSuggestions(suggestions);
+            } catch (error) {
+                console.error('Failed to load suggestions:', error);
+            }
+        } else {
+            this.hideCommandSuggestions();
+        }
+    }
+
+    showCommandSuggestions(suggestions) {
+        const container = document.getElementById('terminalSuggestions');
+        container.innerHTML = '';
+
+        if (suggestions.length > 0) {
+            const title = document.createElement('h4');
+            title.textContent = 'SUGGESTIONS';
+            container.appendChild(title);
+
+            suggestions.slice(0, 5).forEach(suggestion => {
+                const item = document.createElement('div');
+                item.className = 'suggestion-item';
+                item.innerHTML = `
+                    <span class="command">${suggestion.command}</span>
+                    <span class="description">${suggestion.description}</span>
+                `;
+
+                item.addEventListener('click', () => {
+                    document.getElementById('terminalInput').value = suggestion.command;
+                    this.hideCommandSuggestions();
+                });
+
+                container.appendChild(item);
+            });
+        }
+    }
+
+    hideCommandSuggestions() {
+        const container = document.getElementById('terminalSuggestions');
+        container.innerHTML = '';
+    }
+
+    async executeTerminalCommand(command) {
+        this.addTerminalOutput(`automation-suite@localhost:~$ ${command}`);
+        
+        try {
+            const response = await fetch('/api/terminal/execute', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ command })
+            });
+
+            const result = await response.json();
+            
+            if (result.success) {
+                this.addTerminalOutput(`✓ Command executed successfully`);
+                if (result.result) {
+                    this.addTerminalOutput(result.result);
+                }
+            } else {
+                this.addTerminalOutput(`✗ Error: ${result.error}`);
+            }
+        } catch (error) {
+            this.addTerminalOutput(`✗ Error: ${error.message}`);
+        }
+
+        // Reload recent commands
+        this.loadTerminalData();
+    }
+
+    addTerminalOutput(text) {
+        const container = document.getElementById('terminalOutput');
+        const line = document.createElement('div');
+        line.className = 'terminal-line';
+        
+        if (text.startsWith('automation-suite@localhost:~$')) {
+            line.innerHTML = `
+                <span class="terminal-prompt">automation-suite@localhost:~$</span>
+                <span class="terminal-text">${text.replace('automation-suite@localhost:~$ ', '')}</span>
+            `;
+        } else {
+            line.innerHTML = `<span class="terminal-text">${text}</span>`;
+        }
+
+        container.appendChild(line);
+        container.scrollTop = container.scrollHeight;
     }
 }
 
