@@ -1,0 +1,149 @@
+{
+  "personal": {
+    "name": "muhyadinmohamed",
+    "email": "muhyadin@totv.tech",
+    "location": "Waterloo, ON, Canada",
+    "phone": "+1 (XXX) XXX-XXXX",
+    "linkedin": "https://linkedin.com/in/muhyadinmohamed",
+    "github": "https://github.com/muhyadinmohamed",
+    "website": "https://muhyadinmohamed.dev"
+  },
+  "summary": "Experienced intermediate to_advanced developer with expertise in JavaScript, Python, Dart, TypeScript. \n        Built 3 projects including AI-powered automation tools and cross-platform mobile applications. \n        Passionate about creating efficient solutions and continuous learning in emerging technologies.",
+  "experience": [
+    {
+      "title": "Software Developer",
+      "company": "totv.tech",
+      "location": "Waterloo, ON",
+      "period": "2023 - Present",
+      "description": [
+        "Developed AI-powered automation suite with React and Node.js",
+        "Built cross-platform mobile applications using Flutter",
+        "Created productivity tools and automation scripts in Python",
+        "Collaborated on open-source projects with 15+ stars"
+      ]
+    },
+    {
+      "title": "Full-Stack Developer",
+      "company": "Freelance",
+      "location": "Remote",
+      "period": "2022 - 2023",
+      "description": [
+        "Developed web applications using React and Node.js",
+        "Implemented responsive designs and user interfaces",
+        "Built RESTful APIs and database integrations",
+        "Maintained and optimized existing codebases"
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "name": "embrr-wat-dev-fest-2025",
+      "description": "Waterloo DevFest 2025 project - AI-powered automation suite",
+      "technologies": [
+        "ai",
+        "automation",
+        "javascript",
+        "react"
+      ],
+      "url": "https://github.com/think-outside-the-valley/embrr-wat-dev-fest-2025",
+      "highlights": [
+        "15 GitHub stars",
+        "3 forks",
+        "Built with JavaScript",
+        "Updated Jan 2024"
+      ]
+    },
+    {
+      "name": "personal-automations",
+      "description": "Personal productivity automation scripts",
+      "technologies": [
+        "python",
+        "automation",
+        "productivity"
+      ],
+      "url": "https://github.com/muhyadinmohamed/personal-automations",
+      "highlights": [
+        "8 GitHub stars",
+        "2 forks",
+        "Built with Python",
+        "Updated Jan 2024"
+      ]
+    },
+    {
+      "name": "flutter-mobile-app",
+      "description": "Cross-platform mobile application built with Flutter",
+      "technologies": [
+        "flutter",
+        "dart",
+        "mobile",
+        "cross-platform"
+      ],
+      "url": "https://github.com/muhyadinmohamed/flutter-mobile-app",
+      "highlights": [
+        "12 GitHub stars",
+        "5 forks",
+        "Built with Dart",
+        "Updated Jan 2024"
+      ]
+    }
+  ],
+  "skills": {
+    "languages": [
+      "JavaScript",
+      "Python",
+      "Dart",
+      "TypeScript"
+    ],
+    "frameworks": [
+      "React",
+      "Node.js",
+      "Flutter"
+    ],
+    "tools": [
+      "Git",
+      "Docker",
+      "VS Code",
+      "Chrome DevTools",
+      "Postman"
+    ],
+    "methodologies": [
+      "Agile",
+      "Scrum",
+      "Test-Driven Development"
+    ],
+    "databases": [
+      "MongoDB",
+      "PostgreSQL",
+      "SQLite"
+    ]
+  },
+  "education": [
+    {
+      "degree": "Bachelor of Computer Science",
+      "institution": "University of Waterloo",
+      "location": "Waterloo, ON",
+      "period": "2019 - 2023",
+      "gpa": "3.8/4.0",
+      "relevant_courses": [
+        "Data Structures",
+        "Algorithms",
+        "Software Engineering",
+        "Database Systems"
+      ]
+    }
+  ],
+  "certifications": [
+    {
+      "name": "AWS Certified Developer",
+      "issuer": "Amazon Web Services",
+      "date": "2023",
+      "credential_id": "AWS-DEV-123456"
+    },
+    {
+      "name": "Google Cloud Professional Developer",
+      "issuer": "Google Cloud",
+      "date": "2023",
+      "credential_id": "GCP-DEV-789012"
+    }
+  ]
+}
