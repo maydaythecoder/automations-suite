@@ -4,13 +4,15 @@
 
 ### 1. Find Your Spotify Playlist URIs
 
-**Method 1: Right-click in Spotify Desktop App**
+Method 1: Right-click in Spotify Desktop App
+
 1. Open Spotify desktop app
 2. Right-click on any playlist
 3. Select "Share" → "Copy Spotify URI"
 4. You'll get something like: `spotify:playlist:37i9dQZF1DXcBWIGoYBM5M`
 
-**Method 2: From Spotify Web**
+Method 2: From Spotify Web
+
 1. Go to open.spotify.com
 2. Find your playlist
 3. Click the "..." menu → "Share" → "Copy link to playlist"
@@ -22,26 +24,31 @@
 Based on your music taste (R&B, Hip-Hop, Alternative), here are suggested playlist types:
 
 **🎯 Coding Playlist** (Upbeat, energetic)
+
 - Songs that help you focus while coding
 - Examples: Instrumental hip-hop, electronic, upbeat R&B
 - Volume: 60% (as configured)
 
 **🧘 Focus Playlist** (Ambient, concentration)
+
 - Songs for reading, learning, deep work
 - Examples: Ambient, lo-fi hip-hop, instrumental
 - Volume: 40% (as configured)
 
 **🤝 Meeting Playlist** (Very quiet, non-distracting)
+
 - Background music that won't interfere with calls
 - Examples: Nature sounds, very quiet ambient
 - Volume: 20% (as configured)
 
 **🎨 Creative Playlist** (Inspiring, artistic)
+
 - Music for design, brainstorming, creative work
 - Examples: Alternative, indie, inspiring tracks
 - Volume: 70% (as configured)
 
 **🏠 Default Playlist** (Your general favorites)
+
 - Your go-to playlist for general work
 - Examples: Your favorite R&B, Hip-Hop, Alternative mix
 - Volume: 50% (as configured)
@@ -135,16 +142,19 @@ Once set up, you can use these commands:
 ## 🔧 Troubleshooting
 
 **Music doesn't switch automatically:**
+
 - Check if Spotify is running
 - Verify playlist URIs are correct
 - Ensure the music controller is running
 
 **Wrong context detected:**
+
 - Add more specific keywords to your contexts
 - Check the priority order in config
 - Review what tabs are being scanned
 
 **Volume issues:**
+
 - Adjust volume settings in config
 - Check Spotify's own volume control
 - Verify system audio settings
@@ -152,6 +162,7 @@ Once set up, you can use these commands:
 ## 📊 Analytics
 
 The system will track:
+
 - Context switches per day
 - Most used playlists
 - Productivity patterns
