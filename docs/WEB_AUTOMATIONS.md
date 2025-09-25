@@ -14,7 +14,7 @@ The Web Automations module provides intelligent Chrome tab management and web pr
 
 ## Architecture
 
-```
+``` txt
 Web Automations
 ├── tab-manager.js              # Main tab management controller
 ├── sessions/                   # Saved tab sessions
@@ -125,26 +125,31 @@ Edit `configs/master-config.json`:
 ### Declutter Modes
 
 **Gentle Mode**: Only removes obvious duplicates and very old tabs
+
 ```bash
 node web/tab-manager.js declutter gentle
 ```
 
 **Standard Mode**: Smart cleanup based on usage patterns
+
 ```bash
 node web/tab-manager.js declutter standard
 ```
 
 **Aggressive Mode**: Keeps only essential work tabs
+
 ```bash
 node web/tab-manager.js declutter aggressive
 ```
 
 **Focus Mode**: Closes everything except current project
+
 ```bash
 node web/tab-manager.js declutter focus
 ```
 
 **Meeting Mode**: Minimizes to essential tabs only
+
 ```bash
 node web/tab-manager.js declutter meeting
 ```
@@ -207,31 +212,36 @@ await manager.saveSession(tabs, 'work-session');
 
 ### Automatic Categories
 
-**Development**
+Development
+
 - GitHub repositories
 - Local development servers (localhost)
 - Code editors (VS Code, StackBlitz)
 - Documentation sites
 
-**Productivity**
+Productivity
+
 - Email (Gmail, Outlook)
 - Calendar and scheduling
 - Document editors (Google Docs, Sheets)
 - Cloud storage (Drive, Dropbox)
 
-**Learning**
+Learning
+
 - Educational content (YouTube, Coursera)
 - Technical blogs (Medium, Dev.to)
 - Documentation sites
 - Tutorial platforms
 
-**AI Tools**
+AI Tools
+
 - AI chat interfaces (ChatGPT, Claude)
 - AI coding assistants (GitHub Copilot)
 - AI research tools
 - Machine learning platforms
 
-**Social Media**
+Social Media
+
 - Twitter, Facebook, Instagram
 - LinkedIn, Reddit
 - Communication platforms
@@ -270,11 +280,12 @@ const tabScores = {
 - **User Patterns**: Frequently used tabs score higher
 - **Content Type**: Active work content scores higher
 
-## Session Management
+ Session Management
 
 ### Auto-Save Sessions
 
 Sessions are automatically saved:
+
 - Before major declutter operations
 - Daily backups (morning and evening)
 - Project-specific sessions
@@ -299,6 +310,7 @@ node web/tab-manager.js restore emergency
 ### Session Data
 
 Sessions include:
+
 - Tab URLs and titles
 - Tab categories
 - Timestamp information
@@ -328,6 +340,7 @@ end tell
 ### Tab Operations
 
 **Get Tabs**:
+
 ```applescript
 tell application "Google Chrome"
     get tabs of window 1
@@ -335,6 +348,7 @@ end tell
 ```
 
 **Close Tab**:
+
 ```applescript
 tell application "Google Chrome"
     close tab 1 of window 1
@@ -342,6 +356,7 @@ end tell
 ```
 
 **Open URL**:
+
 ```applescript
 tell application "Google Chrome"
     open location "https://example.com"
@@ -353,6 +368,7 @@ end tell
 ### Tab Usage Analytics
 
 The system tracks:
+
 - Average tabs open per day
 - Most visited domains
 - Tab lifespan statistics
@@ -362,6 +378,7 @@ The system tracks:
 ### Usage Reports
 
 **Daily Report**:
+
 ```json
 {
     "date": "2024-01-15",
@@ -378,6 +395,7 @@ The system tracks:
 ```
 
 **Weekly Trends**:
+
 - Tab count trends
 - Category distribution changes
 - Productivity patterns
@@ -388,6 +406,7 @@ The system tracks:
 ### Auto-Documentation Opening
 
 When you visit a coding project, the research assistant:
+
 1. Detects project technology stack
 2. Identifies relevant documentation
 3. Auto-opens documentation tabs
@@ -396,12 +415,14 @@ When you visit a coding project, the research assistant:
 ### Context Detection
 
 **Project Detection**:
+
 - GitHub repository URLs
 - Local development servers
 - Code editor tabs
 - Project-specific domains
 
 **Documentation Mapping**:
+
 ```javascript
 const docMapping = {
     "react": ["reactjs.org", "react.dev"],
@@ -420,6 +441,7 @@ const docMapping = {
 **Symptoms**: No tabs found or empty tab list
 
 **Solutions**:
+
 1. Ensure Chrome is running
 2. Check AppleScript permissions
 3. Verify Chrome is the default browser
@@ -430,6 +452,7 @@ const docMapping = {
 **Symptoms**: Cannot close or manipulate tabs
 
 **Solutions**:
+
 1. Check Chrome permissions
 2. Ensure tabs are not pinned
 3. Verify tab indices are correct
@@ -440,6 +463,7 @@ const docMapping = {
 **Symptoms**: Sessions not saving or restoring correctly
 
 **Solutions**:
+
 1. Check file permissions in sessions directory
 2. Verify session data format
 3. Ensure sufficient disk space
@@ -465,11 +489,13 @@ node web/tab-manager.js group
 ### Permission Issues
 
 **macOS Permissions Required**:
+
 1. **Accessibility**: Terminal/VS Code needs accessibility permissions
 2. **Automation**: Allow Chrome automation
 3. **File Access**: Grant access to sessions directory
 
 **Grant Permissions**:
+
 1. System Preferences → Security & Privacy → Privacy
 2. Select "Accessibility" from left sidebar
 3. Add Terminal, VS Code, and other apps
@@ -496,6 +522,7 @@ node web/tab-manager.js group
 ### Music Automation
 
 Coordinates with music automation:
+
 - Tab context detection triggers music changes
 - Music context influences tab organization
 - Session saving includes music context
@@ -503,6 +530,7 @@ Coordinates with music automation:
 ### Work Session Manager
 
 Integrates with work sessions:
+
 - Automatic tab organization during sessions
 - Session-specific tab management
 - Productivity tracking through tab usage
@@ -510,6 +538,7 @@ Integrates with work sessions:
 ### Code Analyzer
 
 Coordinates with code analysis:
+
 - Opens documentation tabs for analyzed projects
 - Organizes development resources
 - Maintains coding context tabs

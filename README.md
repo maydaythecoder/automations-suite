@@ -16,7 +16,7 @@ A comprehensive collection of AI-powered automations for productivity, developme
 - [Contributing](#contributing)
 - [License](#license)
 
-## 🎯 Overview
+## Overview
 
 This automation suite leverages AI and intelligent scripting to streamline your daily workflow, enhance coding productivity, and accelerate career development. All automations are fully functional and ready to use.
 
@@ -37,7 +37,7 @@ This automation suite leverages AI and intelligent scripting to streamline your 
 - **Output Formats**: Markdown, HTML, JSON, PDF
 - **Platform**: macOS (with AppleScript integration)
 
-## 🚀 Quick Start
+## Quick Start
 
 ### 1. Prerequisites
 
@@ -77,82 +77,93 @@ node automation-controller.js "Declutter my tabs"
 node automation-controller.js "Analyze my code"
 ```
 
-## 🎯 Automation Categories
+## Automation Categories
 
-### 🎵 Music Automations
+### Music Automations
 
-**Smart Focus Music**
+Smart Focus Music
+
 - Automatically detects work context from Chrome tabs
 - Switches Spotify playlists based on activity
 - Supports coding, focus, meetings, creative contexts
 - Volume control and playlist management
 
-**Meeting Music Control**
+Meeting Music Control
+
 - Automatically pauses music during video calls
 - Resumes music after meetings end
 - Supports Zoom, Meet, Teams, WebEx
 
 ### 🌐 Web Automations
 
-**Tab Declutter**
+Tab Declutter
+
 - Intelligently closes duplicate and old tabs
 - Groups related tabs by category
 - Saves important sessions for later
 - Learns from usage patterns
 
-**Research Assistant**
+Research Assistant
+
 - Auto-opens relevant documentation
 - Context-aware tab management
 - Project-specific resource organization
 
 ### 💻 Development Automations
 
-**Code Health Checker**
+Code Health Checker
+
 - Analyzes code patterns and best practices
 - Provides learning-focused explanations
 - Generates improvement suggestions
 - Tracks progress over time
 
-**Documentation Generator**
+Documentation Generator
+
 - Auto-generates project documentation
 - Includes learning notes and explanations
 - Updates based on code changes
 
 ### 📝 Career Automations
 
-**Resume Builder & Updater**
+Resume Builder & Updater
+
 - Extracts skills from GitHub repositories
 - Generates professional resume formats
 - Multiple output formats (Markdown, HTML, PDF)
 - Auto-updates with new projects
 
-**Portfolio Generator**
+Portfolio Generator
+
 - Creates portfolio content from projects
 - Generates case studies and descriptions
 - Extracts technical achievements
 
-### 💡 Innovation Automations
+### Innovation Automations
 
-**App Idea Generator**
+App Idea Generator
+
 - Generates innovative app concepts
 - Includes market research and validation
 - Calculates success probability
 - Provides detailed business analysis
 
-**Market Research Assistant**
+Market Research Assistant
+
 - Analyzes market trends and opportunities
 - Competitor analysis and gap identification
 - User persona generation
 
 ### 🔄 Workflow Automations
 
-**Work Session Manager**
+Work Session Manager
+
 - Handles complete work session lifecycle
 - Integrates all other automations
 - Tracks productivity metrics
 - Generates session summaries
 
-## ⚙️ Installation
+## Installation
 
 ### System Requirements
 
@@ -164,17 +175,20 @@ node automation-controller.js "Analyze my code"
 ### Step-by-Step Installation
 
 1. **Clone Repository**
+
    ```bash
    git clone <repository-url>
    cd automations-suite
    ```
 
 2. **Verify Node.js**
+
    ```bash
    node --version  # Should be v14+
    ```
 
 3. **Run Setup Script**
+
    ```bash
    node setup-automations.js
    ```
@@ -185,11 +199,12 @@ node automation-controller.js "Analyze my code"
    - Allow Spotify and Chrome automation
 
 5. **Test Installation**
+
    ```bash
    node automation-controller.js status
    ```
 
-## 🔧 Configuration
+## Configuration
 
 ### Master Configuration
 
@@ -251,7 +266,7 @@ PROJECT_ROOT=/path/to/automations-suite
 LOG_LEVEL=info
 ```
 
-## 📖 Usage
+## Usage
 
 ### Natural Language Commands
 
@@ -311,14 +326,14 @@ node automation-controller.js interactive
 
 This starts an interactive session where you can type commands naturally:
 
-```
+``` txt
 automation> Start smart focus music
 automation> Declutter my tabs
 automation> Generate app ideas
 automation> exit
 ```
 
-## 📚 API Reference
+## API Reference
 
 ### AutomationController
 
@@ -330,7 +345,7 @@ Main controller class for all automations.
 - `showSystemStatus()` - Display status of all automations
 - `runInteractiveMode()` - Start interactive command mode
 
-#### Usage
+ Usage
 
 ```javascript
 const AutomationController = require('./automation-controller');
@@ -347,14 +362,14 @@ await controller.showSystemStatus();
 
 Smart focus music automation.
 
-#### Methods
+ Methods
 
 - `startSmartMusic()` - Start automatic music switching
 - `stopSmartMusic()` - Stop music automation
 - `manualSwitch(context)` - Manually switch to context
 - `showStatus()` - Display current status
 
-#### Usage
+Usage
 
 ```javascript
 const MusicController = require('./music/smart-music-controller');
@@ -368,14 +383,14 @@ await controller.manualSwitch('coding');
 
 Chrome tab management automation.
 
-#### Methods
+Methods
 
 - `getChromeTabs()` - Get all open Chrome tabs
 - `declutterTabs(mode)` - Clean up tabs intelligently
 - `groupTabs()` - Group tabs by category
 - `saveSession(tabs, name)` - Save current tab session
 
-#### Usage
+Usage
 
 ```javascript
 const TabManager = require('./web/tab-manager');
@@ -389,13 +404,13 @@ await manager.declutterTabs('standard');
 
 Code health analysis with learning explanations.
 
-#### Methods
+Methods
 
 - `analyzeProject(path)` - Analyze project code health
 - `generateDocumentation(path)` - Generate project docs
 - `scanFiles(path)` - Scan project files
 
-#### Usage
+Usage
 
 ```javascript
 const CodeAnalyzer = require('./development/code-analyzer');
@@ -409,14 +424,14 @@ await analyzer.generateDocumentation('.');
 
 Professional resume generation from GitHub.
 
-#### Methods
+Methods
 
 - `analyzeGitHubProfile()` - Analyze GitHub profile
 - `generateResume(githubData)` - Generate resume data
 - `generateResumeFiles(resumeData)` - Create resume files
 - `generatePortfolioContent(githubData)` - Create portfolio
 
-#### Usage
+Usage
 
 ```javascript
 const ResumeBuilder = require('./career/resume-builder');
@@ -431,13 +446,13 @@ await builder.generateResumeFiles(resumeData);
 
 Innovative app idea generation with market research.
 
-#### Methods
+Methods
 
 - `generateAppIdeas(count, category)` - Generate app ideas
 - `analyzeMarketPotential(ideas)` - Analyze market potential
 - `validateIdea(ideaId, data)` - Validate app idea
 
-#### Usage
+Usage
 
 ```javascript
 const AppIdeaGenerator = require('./innovation/app-idea-generator');
@@ -451,14 +466,14 @@ const analyzed = await generator.analyzeMarketPotential(ideas);
 
 Complete work session automation.
 
-#### Methods
+Methods
 
 - `startWorkSession(type)` - Start work session
 - `endWorkSession(sessionId)` - End work session
 - `showSessionStatus()` - Display session status
 - `getSessionHistory(days)` - Get session history
 
-#### Usage
+Usage
 
 ```javascript
 const WorkSessionManager = require('./workflows/work-session-manager');
@@ -468,11 +483,12 @@ const session = await manager.startWorkSession('focus');
 await manager.endWorkSession(session.id);
 ```
 
-## 📄 Output Formats
+## Output Formats
 
 ### Resume Outputs
 
 **Markdown Format** (`resume_YYYY-MM-DD.md`)
+
 ```markdown
 # John Doe
 
@@ -488,11 +504,13 @@ Experienced developer with expertise in...
 ```
 
 **HTML Format** (`resume_YYYY-MM-DD.html`)
+
 - Professional styling with CSS
 - Responsive design
 - Print-friendly layout
 
 **JSON Format** (`resume_YYYY-MM-DD.json`)
+
 ```json
 {
   "personal": {
@@ -508,6 +526,7 @@ Experienced developer with expertise in...
 ### App Idea Reports
 
 **Individual Idea Report** (`idea_[id]_YYYY-MM-DD.md`)
+
 ```markdown
 # Smart Learning Assistant
 
@@ -525,6 +544,7 @@ AI-powered personalized learning platform...
 ```
 
 **Summary Report** (`app_ideas_summary_YYYY-MM-DD.md`)
+
 - Top ideas by success probability
 - Category breakdown
 - Technology trends
@@ -533,6 +553,7 @@ AI-powered personalized learning platform...
 ### Code Analysis Reports
 
 **Health Report** (`CODE_HEALTH_REPORT.md`)
+
 ```markdown
 # Code Health Report
 
@@ -554,6 +575,7 @@ AI-powered personalized learning platform...
 ### Session Reports
 
 **Session Summary** (`summary_[session-id].json`)
+
 ```json
 {
   "session_id": "session_1234567890_abcde",
@@ -566,7 +588,7 @@ AI-powered personalized learning platform...
 }
 ```
 
-## 🔧 Troubleshooting
+## Troubleshooting
 
 ### Common Issues
 
@@ -574,6 +596,7 @@ AI-powered personalized learning platform...
 
 **Problem**: Music doesn't switch automatically
 **Solutions**:
+
 1. Check if Spotify is running
 2. Verify playlist URIs in `configs/music-contexts.json`
 3. Ensure AppleScript permissions are granted
@@ -583,6 +606,7 @@ AI-powered personalized learning platform...
 
 **Problem**: Chrome tabs not detected
 **Solutions**:
+
 1. Ensure Chrome is running
 2. Check AppleScript permissions
 3. Verify Chrome is the default browser
@@ -592,6 +616,7 @@ AI-powered personalized learning platform...
 
 **Problem**: File scanning fails
 **Solutions**:
+
 1. Check file permissions
 2. Ensure you're in a project directory
 3. Verify Node.js version (v14+)
@@ -601,6 +626,7 @@ AI-powered personalized learning platform...
 
 **Problem**: GitHub data not found
 **Solutions**:
+
 1. Verify GitHub username in config
 2. Check internet connection
 3. Ensure GitHub profile is public
@@ -627,11 +653,13 @@ tail -f logs/automation.log
 ### Permission Issues
 
 **macOS Permissions Required**:
+
 1. **Accessibility**: Terminal/VS Code needs accessibility permissions
 2. **Automation**: Allow Spotify and Chrome automation
 3. **File Access**: Grant access to Documents and Downloads folders
 
 **Grant Permissions**:
+
 1. System Preferences → Security & Privacy → Privacy
 2. Select "Accessibility" from left sidebar
 3. Add Terminal, VS Code, and other apps
@@ -640,27 +668,31 @@ tail -f logs/automation.log
 ### Performance Issues
 
 **Slow Execution**:
+
 1. Check system resources (CPU, Memory)
 2. Close unnecessary applications
 3. Reduce number of concurrent automations
 4. Check network connectivity
 
 **Memory Usage**:
+
 1. Monitor Node.js memory usage
 2. Restart automation controller periodically
 3. Clear temporary files regularly
 
-## 🤝 Contributing
+## Contributing
 
 ### Development Setup
 
 1. **Fork Repository**
+
    ```bash
    git fork <repository-url>
    cd automations-suite
    ```
 
 2. **Create Feature Branch**
+
    ```bash
    git checkout -b feature/new-automation
    ```
@@ -671,6 +703,7 @@ tail -f logs/automation.log
    - Update documentation
 
 4. **Test Changes**
+
    ```bash
    node setup-automations.js
    node automation-controller.js status
@@ -701,7 +734,7 @@ node web/tab-manager.js analyze
 node development/code-analyzer.js analyze .
 ```
 
-## 📄 License
+## License
 
 MIT License - Feel free to use and modify for your personal projects.
 
@@ -717,6 +750,7 @@ MIT License - Feel free to use and modify for your personal projects.
 ### Reporting Issues
 
 When reporting issues, include:
+
 - Operating system and version
 - Node.js version
 - Error messages and stack traces
@@ -726,6 +760,7 @@ When reporting issues, include:
 ### Feature Requests
 
 For new features:
+
 - Describe the use case
 - Explain how it fits with existing automations
 - Provide examples of desired functionality

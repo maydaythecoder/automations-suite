@@ -15,7 +15,7 @@ The Career Automations module provides intelligent resume building, portfolio ge
 
 ## Architecture
 
-```
+``` txt
 Career Automations
 ├── resume-builder.js           # Main resume generation controller
 ├── output/                     # Generated resumes and portfolios
@@ -128,18 +128,21 @@ Edit `configs/master-config.json`:
 ### Resume Templates
 
 **Modern Developer Template**:
+
 - Clean, professional layout
 - ATS-friendly format
 - Skills-based organization
 - Project-focused experience
 
 **Academic Template**:
+
 - Research-focused
 - Publication emphasis
 - Education prominence
 - Academic achievements
 
 **Creative Template**:
+
 - Visual design focus
 - Portfolio integration
 - Creative project emphasis
@@ -198,6 +201,7 @@ const portfolio = await builder.generatePortfolioContent(githubData);
 ### Repository Analysis
 
 **Repository Data Extraction**:
+
 ```javascript
 const repositories = [
     {
@@ -214,6 +218,7 @@ const repositories = [
 ```
 
 **Language Statistics**:
+
 ```javascript
 const languages = {
     'JavaScript': { percentage: 45, projects: 8 },
@@ -224,6 +229,7 @@ const languages = {
 ```
 
 **Skills Extraction**:
+
 ```javascript
 const skills = [
     'javascript', 'python', 'react', 'nodejs',
@@ -234,6 +240,7 @@ const skills = [
 ### Featured Projects
 
 Projects are selected based on:
+
 - Star count (>5 stars)
 - Fork count (>2 forks)
 - Recent activity
@@ -245,13 +252,15 @@ Projects are selected based on:
 ### Professional Summary
 
 Auto-generated based on:
+
 - Primary languages and frameworks
 - Project count and complexity
 - Repository statistics
 - User profile information
 
 **Example**:
-```
+
+``` txt
 Experienced intermediate to advanced developer with expertise in JavaScript, Python, Dart. 
 Built 12 projects including AI-powered automation tools and cross-platform mobile applications. 
 Passionate about creating efficient solutions and continuous learning in emerging technologies.
@@ -260,6 +269,7 @@ Passionate about creating efficient solutions and continuous learning in emergin
 ### Experience Section
 
 **Generated Experience**:
+
 ```javascript
 {
     title: 'Software Developer',
@@ -278,6 +288,7 @@ Passionate about creating efficient solutions and continuous learning in emergin
 ### Projects Section
 
 **Project Format**:
+
 ```javascript
 {
     name: 'project-name',
@@ -296,6 +307,7 @@ Passionate about creating efficient solutions and continuous learning in emergin
 ### Skills Section
 
 **Organized Skills**:
+
 ```javascript
 {
     languages: ['JavaScript', 'Python', 'Dart', 'TypeScript'],
@@ -427,11 +439,13 @@ Project description
 ### Technology Detection
 
 **From Repository Topics**:
+
 ```javascript
 const topics = ['react', 'nodejs', 'mongodb', 'docker', 'aws'];
 ```
 
 **From Language Usage**:
+
 ```javascript
 const languages = {
     'JavaScript': 8,
@@ -442,6 +456,7 @@ const languages = {
 ```
 
 **From File Patterns**:
+
 ```javascript
 const patterns = {
     'react': /\.jsx$|import.*react/,
@@ -465,6 +480,7 @@ const patterns = {
 ### Career Progress Tracking
 
 **Metrics Tracked**:
+
 - Repository count growth
 - Language proficiency development
 - Framework adoption
@@ -472,6 +488,7 @@ const patterns = {
 - Skill diversification
 
 **Progress Reports**:
+
 ```json
 {
     "month": "2024-01",
@@ -489,6 +506,7 @@ const patterns = {
 ### Skill Development
 
 **Learning Recommendations**:
+
 - Emerging technologies to learn
 - Skills gaps to address
 - Project ideas for skill building
@@ -499,6 +517,7 @@ const patterns = {
 ### Code Analyzer
 
 Coordinates with code analysis:
+
 - Skills extracted from code analysis
 - Best practices influence resume content
 - Learning progress tracked
@@ -507,6 +526,7 @@ Coordinates with code analysis:
 ### App Idea Generator
 
 Integrates with innovation tools:
+
 - App ideas become portfolio projects
 - Market research influences career direction
 - Innovation skills highlighted
@@ -515,6 +535,7 @@ Integrates with innovation tools:
 ### Work Session Manager
 
 Coordinates with work sessions:
+
 - Project work tracked for resume updates
 - Productivity metrics influence career narrative
 - Learning sessions documented
@@ -529,6 +550,7 @@ Coordinates with work sessions:
 **Symptoms**: No repositories found or analysis fails
 
 **Solutions**:
+
 1. Verify GitHub username in configuration
 2. Check internet connection
 3. Ensure GitHub profile is public
@@ -539,6 +561,7 @@ Coordinates with work sessions:
 **Symptoms**: Resume files not generated or incomplete
 
 **Solutions**:
+
 1. Check output directory permissions
 2. Verify GitHub analysis completed
 3. Ensure sufficient disk space
@@ -549,6 +572,7 @@ Coordinates with work sessions:
 **Symptoms**: Skills not properly extracted or categorized
 
 **Solutions**:
+
 1. Check repository topics and descriptions
 2. Verify language detection accuracy
 3. Review skill mapping configuration
@@ -573,12 +597,14 @@ node career/resume-builder.js config
 ### GitHub API Issues
 
 **Rate Limiting**:
+
 - GitHub API has rate limits
 - Use personal access tokens
 - Implement request throttling
 - Cache results when possible
 
 **Authentication**:
+
 - Use GitHub personal access tokens
 - Store tokens securely in environment variables
 - Implement token rotation

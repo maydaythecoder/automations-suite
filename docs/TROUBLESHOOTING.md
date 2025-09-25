@@ -45,25 +45,29 @@ tail -f logs/automation.log
 ### Common Error Patterns
 
 **Permission Errors**:
-```
+
+``` txt
 Error: Permission denied
 Solution: Grant accessibility permissions to Terminal/VS Code
 ```
 
 **File Not Found**:
-```
+
+``` txt
 Error: ENOENT: no such file or directory
 Solution: Check file paths and ensure files exist
 ```
 
 **Configuration Errors**:
-```
+
+``` txt
 Error: Invalid configuration
 Solution: Run config validation and fix JSON syntax
 ```
 
 **Network Errors**:
-```
+
+``` txt
 Error: Network request failed
 Solution: Check internet connection and API credentials
 ```
@@ -75,11 +79,13 @@ Solution: Check internet connection and API credentials
 ### Spotify Not Responding
 
 **Symptoms**:
+
 - Music doesn't switch automatically
 - Manual commands fail
 - "Spotify is not running" errors
 
 **Diagnosis**:
+
 ```bash
 # Check if Spotify is running
 pgrep -f "Spotify"
@@ -91,6 +97,7 @@ node music/spotify-integration.js status
 **Solutions**:
 
 1. **Start Spotify**:
+
    ```bash
    open -a Spotify
    ```
@@ -102,12 +109,14 @@ node music/spotify-integration.js status
    - Restart applications
 
 3. **Verify Playlist URIs**:
+
    ```bash
    # Check music configuration
    node music/smart-music-controller.js config
    ```
 
 4. **Test Manual Control**:
+
    ```bash
    node music/spotify-integration.js volume 50
    node music/spotify-integration.js pause
@@ -117,11 +126,13 @@ node music/spotify-integration.js status
 ### Wrong Context Detection
 
 **Symptoms**:
+
 - Music switches to wrong context
 - Context detection fails
 - Inconsistent behavior
 
 **Diagnosis**:
+
 ```bash
 # Check current context detection
 node music/smart-music-controller.js status
@@ -133,6 +144,7 @@ node music/smart-music-controller.js start
 **Solutions**:
 
 1. **Update Keywords**:
+
    ```json
    {
      "coding": {
@@ -142,12 +154,14 @@ node music/smart-music-controller.js start
    ```
 
 2. **Check Tab Detection**:
+
    ```bash
    # Verify Chrome tabs are detected
    node web/tab-manager.js analyze
    ```
 
 3. **Manual Override**:
+
    ```bash
    node music/smart-music-controller.js switch coding
    ```
@@ -155,6 +169,7 @@ node music/smart-music-controller.js start
 ### Volume Issues
 
 **Symptoms**:
+
 - Volume doesn't change
 - Volume changes incorrectly
 - Volume resets unexpectedly
@@ -162,6 +177,7 @@ node music/smart-music-controller.js start
 **Solutions**:
 
 1. **Check Volume Settings**:
+
    ```json
    {
      "coding": {
@@ -171,6 +187,7 @@ node music/smart-music-controller.js start
    ```
 
 2. **Test Volume Control**:
+
    ```bash
    node music/spotify-integration.js volume 60
    ```
@@ -183,6 +200,7 @@ node music/smart-music-controller.js start
 ### Playlist Issues
 
 **Symptoms**:
+
 - Playlist doesn't play
 - "Playlist not found" errors
 - Wrong playlist plays
@@ -190,12 +208,14 @@ node music/smart-music-controller.js start
 **Solutions**:
 
 1. **Verify Playlist URIs**:
+
    ```bash
    # Get your playlists
    node music/spotify-integration.js playlists
    ```
 
 2. **Update Configuration**:
+
    ```json
    {
      "coding": {
@@ -205,6 +225,7 @@ node music/smart-music-controller.js start
    ```
 
 3. **Test Playlist**:
+
    ```bash
    node music/spotify-integration.js switch coding
    ```
@@ -216,11 +237,13 @@ node music/smart-music-controller.js start
 ### Chrome Tabs Not Detected
 
 **Symptoms**:
+
 - No tabs found
 - Empty tab list
 - Tab operations fail
 
 **Diagnosis**:
+
 ```bash
 # Test tab detection
 node web/tab-manager.js analyze
@@ -239,6 +262,7 @@ node web/tab-manager.js analyze
    - Add Terminal, VS Code, and other apps
 
 3. **Test AppleScript**:
+
    ```bash
    # Test Chrome AppleScript
    osascript -e 'tell application "Google Chrome" to get tabs of window 1'
@@ -247,6 +271,7 @@ node web/tab-manager.js analyze
 ### Tab Operations Fail
 
 **Symptoms**:
+
 - Cannot close tabs
 - Cannot group tabs
 - Tab operations error
@@ -254,12 +279,14 @@ node web/tab-manager.js analyze
 **Solutions**:
 
 1. **Check Tab Indices**:
+
    ```bash
    # Get current tab information
    node web/tab-manager.js analyze
    ```
 
 2. **Test Individual Operations**:
+
    ```bash
    # Test grouping
    node web/tab-manager.js group
@@ -276,6 +303,7 @@ node web/tab-manager.js analyze
 ### Session Save/Restore Issues
 
 **Symptoms**:
+
 - Sessions not saving
 - Sessions not restoring
 - Session data corrupted
@@ -283,12 +311,14 @@ node web/tab-manager.js analyze
 **Solutions**:
 
 1. **Check File Permissions**:
+
    ```bash
    # Check sessions directory
    ls -la web/sessions/
    ```
 
 2. **Test Session Operations**:
+
    ```bash
    # Save test session
    node web/tab-manager.js save test-session
@@ -298,6 +328,7 @@ node web/tab-manager.js analyze
    ```
 
 3. **Clear Corrupted Sessions**:
+
    ```bash
    # Remove corrupted session files
    rm web/sessions/corrupted-session.json
@@ -310,11 +341,13 @@ node web/tab-manager.js analyze
 ### File Scanning Fails
 
 **Symptoms**:
+
 - No files found
 - Analysis errors
 - File reading fails
 
 **Diagnosis**:
+
 ```bash
 # Test file scanning
 node development/code-analyzer.js analyze .
@@ -323,6 +356,7 @@ node development/code-analyzer.js analyze .
 **Solutions**:
 
 1. **Check File Permissions**:
+
    ```bash
    # Check directory permissions
    ls -la .
@@ -334,6 +368,7 @@ node development/code-analyzer.js analyze .
    - Verify file encoding (UTF-8)
 
 3. **Test with Specific Path**:
+
    ```bash
    node development/code-analyzer.js analyze /path/to/project
    ```
@@ -341,6 +376,7 @@ node development/code-analyzer.js analyze .
 ### Analysis Errors
 
 **Symptoms**:
+
 - Analysis crashes
 - Incomplete results
 - Memory errors
@@ -353,12 +389,14 @@ node development/code-analyzer.js analyze .
    - Process files in batches
 
 2. **Check Memory Usage**:
+
    ```bash
    # Monitor memory usage
    top -p $(pgrep node)
    ```
 
 3. **Increase Memory Limit**:
+
    ```bash
    node --max-old-space-size=4096 development/code-analyzer.js analyze .
    ```
@@ -366,6 +404,7 @@ node development/code-analyzer.js analyze .
 ### Documentation Generation Issues
 
 **Symptoms**:
+
 - Documentation not generated
 - Incomplete documentation
 - File write errors
@@ -373,17 +412,20 @@ node development/code-analyzer.js analyze .
 **Solutions**:
 
 1. **Check Output Directory**:
+
    ```bash
    # Check output directory permissions
    ls -la development/output/
    ```
 
 2. **Test Documentation Generation**:
+
    ```bash
    node development/code-analyzer.js docs .
    ```
 
 3. **Clear Output Directory**:
+
    ```bash
    # Remove old documentation
    rm development/output/*
@@ -396,11 +438,13 @@ node development/code-analyzer.js analyze .
 ### GitHub Profile Not Found
 
 **Symptoms**:
+
 - No repositories found
 - Analysis fails
 - "Profile not found" errors
 
 **Diagnosis**:
+
 ```bash
 # Test GitHub analysis
 node career/resume-builder.js analyze
@@ -409,6 +453,7 @@ node career/resume-builder.js analyze
 **Solutions**:
 
 1. **Verify GitHub Username**:
+
    ```json
    {
      "user_profile": {
@@ -418,6 +463,7 @@ node career/resume-builder.js analyze
    ```
 
 2. **Check Internet Connection**:
+
    ```bash
    # Test GitHub connectivity
    curl -I https://api.github.com
@@ -431,6 +477,7 @@ node career/resume-builder.js analyze
 ### Resume Generation Errors
 
 **Symptoms**:
+
 - Resume files not generated
 - Incomplete resume data
 - File write errors
@@ -438,17 +485,20 @@ node career/resume-builder.js analyze
 **Solutions**:
 
 1. **Check Output Directory**:
+
    ```bash
    # Check output directory permissions
    ls -la career/output/
    ```
 
 2. **Test Resume Generation**:
+
    ```bash
    node career/resume-builder.js build
    ```
 
 3. **Verify GitHub Data**:
+
    ```bash
    # Check GitHub analysis
    node career/resume-builder.js analyze
@@ -457,6 +507,7 @@ node career/resume-builder.js analyze
 ### Portfolio Generation Issues
 
 **Symptoms**:
+
 - Portfolio content not generated
 - Missing project data
 - Incomplete portfolio
@@ -464,6 +515,7 @@ node career/resume-builder.js analyze
 **Solutions**:
 
 1. **Check Featured Project**:
+
    ```json
    {
      "portfolio_generator": {
@@ -473,6 +525,7 @@ node career/resume-builder.js analyze
    ```
 
 2. **Test Portfolio Generation**:
+
    ```bash
    node career/resume-builder.js portfolio
    ```
@@ -489,11 +542,13 @@ node career/resume-builder.js analyze
 ### Idea Generation Fails
 
 **Symptoms**:
+
 - No ideas generated
 - Generation errors
 - Empty results
 
 **Diagnosis**:
+
 ```bash
 # Test idea generation
 node innovation/app-idea-generator.js generate 1
@@ -502,6 +557,7 @@ node innovation/app-idea-generator.js generate 1
 **Solutions**:
 
 1. **Check Configuration**:
+
    ```json
    {
      "innovation_automations": {
@@ -514,11 +570,13 @@ node innovation/app-idea-generator.js generate 1
    ```
 
 2. **Test Category Generation**:
+
    ```bash
    node innovation/app-idea-generator.js category ai_ml
    ```
 
 3. **Clear Output Directory**:
+
    ```bash
    rm innovation/output/*
    ```
@@ -526,6 +584,7 @@ node innovation/app-idea-generator.js generate 1
 ### Market Analysis Errors
 
 **Symptoms**:
+
 - Analysis fails
 - Incomplete market data
 - Calculation errors
@@ -533,6 +592,7 @@ node innovation/app-idea-generator.js generate 1
 **Solutions**:
 
 1. **Check Analysis Data**:
+
    ```bash
    # Test market analysis
    node innovation/app-idea-generator.js generate 1
@@ -544,6 +604,7 @@ node innovation/app-idea-generator.js generate 1
    - Verify analysis inputs
 
 3. **Test Individual Analysis**:
+
    ```bash
    # Test specific analysis functions
    node -e "
@@ -556,6 +617,7 @@ node innovation/app-idea-generator.js generate 1
 ### Report Generation Issues
 
 **Symptoms**:
+
 - Reports not generated
 - Incomplete reports
 - File write errors
@@ -563,12 +625,14 @@ node innovation/app-idea-generator.js generate 1
 **Solutions**:
 
 1. **Check Output Directory**:
+
    ```bash
    # Check output directory permissions
    ls -la innovation/output/
    ```
 
 2. **Test Report Generation**:
+
    ```bash
    node innovation/app-idea-generator.js generate 3
    ```
@@ -585,11 +649,13 @@ node innovation/app-idea-generator.js generate 1
 ### Session Start Fails
 
 **Symptoms**:
+
 - Session doesn't start
 - Actions fail
 - Session creation errors
 
 **Diagnosis**:
+
 ```bash
 # Test session creation
 node workflows/work-session-manager.js start test
@@ -603,12 +669,14 @@ node workflows/work-session-manager.js start test
    - Check file system permissions
 
 2. **Test Individual Actions**:
+
    ```bash
    # Test action execution
    node workflows/work-session-manager.js start focus
    ```
 
 3. **Check Configuration**:
+
    ```json
    {
      "workflow_automations": {
@@ -623,6 +691,7 @@ node workflows/work-session-manager.js start test
 ### Session End Issues
 
 **Symptoms**:
+
 - Session doesn't end
 - Cleanup fails
 - Session data corrupted
@@ -630,17 +699,20 @@ node workflows/work-session-manager.js start test
 **Solutions**:
 
 1. **Check Session ID**:
+
    ```bash
    # Get active session
    node workflows/work-session-manager.js status
    ```
 
 2. **Test Session End**:
+
    ```bash
    node workflows/work-session-manager.js end session-id
    ```
 
 3. **Check File Permissions**:
+
    ```bash
    # Check sessions directory
    ls -la workflows/sessions/
@@ -649,6 +721,7 @@ node workflows/work-session-manager.js start test
 ### Productivity Tracking Errors
 
 **Symptoms**:
+
 - Metrics not calculated
 - Incorrect productivity scores
 - Tracking data missing
@@ -656,12 +729,14 @@ node workflows/work-session-manager.js start test
 **Solutions**:
 
 1. **Check Session Data**:
+
    ```bash
    # View session data
    cat workflows/sessions/session-id.json
    ```
 
 2. **Test Score Calculation**:
+
    ```bash
    node workflows/work-session-manager.js status
    ```
@@ -678,6 +753,7 @@ node workflows/work-session-manager.js start test
 ### Permission Problems
 
 **Symptoms**:
+
 - "Permission denied" errors
 - AppleScript failures
 - File access denied
@@ -691,6 +767,7 @@ node workflows/work-session-manager.js start test
    - Restart applications
 
 2. **Check File Permissions**:
+
    ```bash
    # Check directory permissions
    ls -la automations-suite/
@@ -707,6 +784,7 @@ node workflows/work-session-manager.js start test
 ### Node.js Issues
 
 **Symptoms**:
+
 - "Command not found" errors
 - Module loading failures
 - Version compatibility issues
@@ -714,12 +792,14 @@ node workflows/work-session-manager.js start test
 **Solutions**:
 
 1. **Check Node.js Version**:
+
    ```bash
    node --version  # Should be v14 or higher
    npm --version
    ```
 
 2. **Update Node.js**:
+
    ```bash
    # Using nvm
    nvm install node
@@ -729,6 +809,7 @@ node workflows/work-session-manager.js start test
    ```
 
 3. **Reinstall Dependencies**:
+
    ```bash
    npm install
    ```
@@ -736,6 +817,7 @@ node workflows/work-session-manager.js start test
 ### File System Issues
 
 **Symptoms**:
+
 - File not found errors
 - Directory creation fails
 - Path resolution issues
@@ -743,18 +825,21 @@ node workflows/work-session-manager.js start test
 **Solutions**:
 
 1. **Check File Paths**:
+
    ```bash
    # Verify paths exist
    ls -la /Users/username/Documents/Work/
    ```
 
 2. **Create Missing Directories**:
+
    ```bash
    mkdir -p /Users/username/Documents/Work/
    mkdir -p automations-suite/output/
    ```
 
 3. **Fix Path Configuration**:
+
    ```json
    {
      "system_paths": {
@@ -771,6 +856,7 @@ node workflows/work-session-manager.js start test
 ### Slow Execution
 
 **Symptoms**:
+
 - Commands take too long
 - System becomes unresponsive
 - High CPU usage
@@ -778,12 +864,14 @@ node workflows/work-session-manager.js start test
 **Solutions**:
 
 1. **Check System Resources**:
+
    ```bash
    # Monitor CPU and memory
    top
    ```
 
 2. **Optimize Configuration**:
+
    ```json
    {
      "music_automations": {
@@ -800,6 +888,7 @@ node workflows/work-session-manager.js start test
 ### Memory Issues
 
 **Symptoms**:
+
 - Out of memory errors
 - System slowdown
 - Application crashes
@@ -807,6 +896,7 @@ node workflows/work-session-manager.js start test
 **Solutions**:
 
 1. **Increase Node.js Memory**:
+
    ```bash
    node --max-old-space-size=4096 automation-controller.js
    ```
@@ -817,6 +907,7 @@ node workflows/work-session-manager.js start test
    - Clear temporary data
 
 3. **Monitor Memory Usage**:
+
    ```bash
    # Monitor Node.js memory
    node --inspect automation-controller.js
@@ -825,6 +916,7 @@ node workflows/work-session-manager.js start test
 ### Network Issues
 
 **Symptoms**:
+
 - API calls fail
 - Slow responses
 - Connection timeouts
@@ -832,18 +924,21 @@ node workflows/work-session-manager.js start test
 **Solutions**:
 
 1. **Check Internet Connection**:
+
    ```bash
    ping google.com
    curl -I https://api.github.com
    ```
 
 2. **Configure Proxy** (if needed):
+
    ```bash
    export HTTP_PROXY=http://proxy:port
    export HTTPS_PROXY=http://proxy:port
    ```
 
 3. **Increase Timeouts**:
+
    ```javascript
    const timeout = 30000; // 30 seconds
    ```
@@ -967,6 +1062,7 @@ tail -f web/output/tab-manager.log
 ### Reporting Issues
 
 When reporting issues, include:
+
 - Operating system and version
 - Node.js version
 - Error messages and stack traces

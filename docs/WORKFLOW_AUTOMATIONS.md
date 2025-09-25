@@ -15,7 +15,7 @@ The Workflow Automations module provides intelligent work session management, pr
 
 ## Architecture
 
-```
+``` txt
 Workflow Automations
 ├── work-session-manager.js     # Main session management controller
 ├── sessions/                   # Session data and history
@@ -111,29 +111,34 @@ Edit `configs/master-config.json`:
 ### Session Types
 
 **Default Session**:
+
 - Standard work session
 - All automations enabled
 - Balanced productivity focus
 
 **Focus Session**:
+
 - Deep work emphasis
 - Minimal distractions
 - Extended focus blocks
 - Enhanced music automation
 
 **Creative Session**:
+
 - Creative work emphasis
 - Inspiring music
 - Design tools integration
 - Brainstorming support
 
 **Learning Session**:
+
 - Educational content focus
 - Documentation integration
 - Tutorial support
 - Knowledge management
 
 **Meeting Session**:
+
 - Meeting preparation
 - Audio optimization
 - Note-taking support
@@ -193,6 +198,7 @@ const history = await manager.getSessionHistory(7);
 ### Start Actions
 
 **Open Project Tabs**:
+
 ```javascript
 async openProjectTabs(session) {
     const projectUrls = [
@@ -210,6 +216,7 @@ async openProjectTabs(session) {
 ```
 
 **Start Focus Music**:
+
 ```javascript
 async startFocusMusic(session) {
     const musicController = require('../music/smart-music-controller');
@@ -220,6 +227,7 @@ async startFocusMusic(session) {
 ```
 
 **Create Daily Folder**:
+
 ```javascript
 async createDailyFolder(session) {
     const today = new Date().toISOString().split('T')[0];
@@ -234,6 +242,7 @@ async createDailyFolder(session) {
 ```
 
 **Show Today's Agenda**:
+
 ```javascript
 async showTodayAgenda(session) {
     console.log('📅 Today\'s Agenda:');
@@ -250,6 +259,7 @@ async showTodayAgenda(session) {
 ### End Actions
 
 **Save Session Tabs**:
+
 ```javascript
 async saveSessionTabs(session) {
     const tabManager = require('../web/tab-manager');
@@ -261,6 +271,7 @@ async saveSessionTabs(session) {
 ```
 
 **Archive Work Files**:
+
 ```javascript
 async archiveWorkFiles(session) {
     const today = new Date().toISOString().split('T')[0];
@@ -288,6 +299,7 @@ async archiveWorkFiles(session) {
 ```
 
 **Generate Summary**:
+
 ```javascript
 async generateSummary(session) {
     const summary = {
@@ -309,6 +321,7 @@ async generateSummary(session) {
 ```
 
 **Cleanup Temp Files**:
+
 ```javascript
 async cleanupTempFiles(session) {
     const tempDirs = [
@@ -371,6 +384,7 @@ calculateProductivityScore(session) {
 ### Productivity Metrics
 
 **Session Metrics**:
+
 - Duration and frequency
 - Actions completed
 - Productivity score
@@ -378,6 +392,7 @@ calculateProductivityScore(session) {
 - Break frequency
 
 **Daily Metrics**:
+
 - Total work time
 - Average session length
 - Productivity trend
@@ -385,6 +400,7 @@ calculateProductivityScore(session) {
 - Distraction patterns
 
 **Weekly Metrics**:
+
 - Work pattern analysis
 - Productivity improvements
 - Goal achievement
@@ -421,6 +437,7 @@ generateRecommendations(session) {
 ### Session History
 
 **History Data Structure**:
+
 ```javascript
 {
     sessions: [
@@ -446,6 +463,7 @@ generateRecommendations(session) {
 ### Analytics Reports
 
 **Daily Report**:
+
 ```json
 {
     "date": "2024-01-15",
@@ -461,6 +479,7 @@ generateRecommendations(session) {
 ```
 
 **Weekly Report**:
+
 ```json
 {
     "week": "2024-W03",
@@ -481,6 +500,7 @@ generateRecommendations(session) {
 ### Music Automation
 
 Coordinates with music automation:
+
 - Starts appropriate music for session type
 - Switches music based on session context
 - Pauses music during breaks
@@ -489,6 +509,7 @@ Coordinates with music automation:
 ### Tab Manager
 
 Integrates with tab management:
+
 - Opens project tabs at session start
 - Saves tabs at session end
 - Organizes tabs by session context
@@ -497,6 +518,7 @@ Integrates with tab management:
 ### Code Analyzer
 
 Coordinates with code analysis:
+
 - Runs analysis during focus sessions
 - Integrates learning into session summaries
 - Tracks skill development progress
@@ -505,6 +527,7 @@ Coordinates with code analysis:
 ### Career Automation
 
 Integrates with career tools:
+
 - Tracks project work for resume updates
 - Documents skill development
 - Records achievements and milestones
@@ -519,6 +542,7 @@ Integrates with career tools:
 **Symptoms**: Session doesn't start or actions fail
 
 **Solutions**:
+
 1. Check automation permissions
 2. Verify Chrome and Spotify are running
 3. Ensure file system permissions
@@ -529,6 +553,7 @@ Integrates with career tools:
 **Symptoms**: Session doesn't end or cleanup fails
 
 **Solutions**:
+
 1. Check session ID validity
 2. Verify file permissions
 3. Ensure sufficient disk space
@@ -539,6 +564,7 @@ Integrates with career tools:
 **Symptoms**: Metrics not calculated or incorrect
 
 **Solutions**:
+
 1. Check session data integrity
 2. Verify calculation algorithms
 3. Ensure proper data collection
@@ -563,11 +589,13 @@ ls workflows/sessions/
 ### Permission Issues
 
 **macOS Permissions Required**:
+
 1. **Accessibility**: Terminal/VS Code needs accessibility permissions
 2. **Automation**: Allow Chrome and Spotify automation
 3. **File Access**: Grant access to Documents and Downloads folders
 
 **Grant Permissions**:
+
 1. System Preferences → Security & Privacy → Privacy
 2. Select "Accessibility" from left sidebar
 3. Add Terminal, VS Code, and other apps

@@ -23,7 +23,8 @@ This guide provides comprehensive instructions for configuring all automation mo
 The master configuration file (`configs/master-config.json`) contains all automation settings and user profile information.
 
 ### File Location
-```
+
+``` txt
 automations-suite/
 ├── configs/
 │   ├── master-config.json      # Main configuration file
@@ -153,12 +154,14 @@ automations-suite/
 
 ### Finding Spotify Playlist URIs
 
-**Method 1: Spotify Desktop App**
+Method 1: Spotify Desktop App
+
 1. Right-click on playlist in Spotify
 2. Select "Share" → "Copy Spotify URI"
 3. Format: `spotify:playlist:37i9dQZF1DXcBWIGoYBM5M`
 
-**Method 2: Spotify Web**
+Method 2: Spotify Web
+
 1. Go to open.spotify.com
 2. Find your playlist
 3. Click "..." → "Share" → "Copy link to playlist"
@@ -167,7 +170,8 @@ automations-suite/
 
 ### Customizing Context Detection
 
-**Adding New Contexts**:
+Adding New Contexts
+
 ```json
 {
   "gaming": {
@@ -180,6 +184,7 @@ automations-suite/
 ```
 
 **Modifying Keywords**:
+
 ```json
 {
   "coding": {
@@ -195,7 +200,7 @@ automations-suite/
 
 ## Web Automation Configuration
 
-### Master Config Section
+ Master Config Section
 
 ```json
 {
@@ -234,6 +239,7 @@ automations-suite/
 ### Tab Management Rules
 
 **Auto-Close Rules**:
+
 ```json
 {
   "auto_close_rules": {
@@ -248,6 +254,7 @@ automations-suite/
 ```
 
 **Keep Patterns**:
+
 ```json
 {
   "keep_patterns": [
@@ -262,6 +269,7 @@ automations-suite/
 ```
 
 **Grouping Rules**:
+
 ```json
 {
   "grouping_rules": {
@@ -292,23 +300,27 @@ automations-suite/
 ### Declutter Modes
 
 **Gentle Mode**:
+
 - Only removes obvious duplicates
 - Closes very old tabs (>24 hours)
 - Preserves all work-related tabs
 
 **Standard Mode**:
+
 - Smart cleanup based on usage patterns
 - Closes old search results
 - Limits social media tabs
 - Preserves important work tabs
 
 **Aggressive Mode**:
+
 - Keeps only essential work tabs
 - Closes entertainment tabs
 - Removes old documentation
 - Focuses on current project
 
 **Focus Mode**:
+
 - Closes everything except current project
 - Minimal tab count
 - Maximum focus
@@ -318,7 +330,7 @@ automations-suite/
 
 ## Development Automation Configuration
 
-### Master Config Section
+ Master Config Section
 
 ```json
 {
@@ -356,6 +368,7 @@ automations-suite/
 ### Analysis Configuration
 
 **Analysis Types**:
+
 ```json
 {
   "analysis_types": [
@@ -370,6 +383,7 @@ automations-suite/
 ```
 
 **Learning Mode Settings**:
+
 ```json
 {
   "learning_mode": true,
@@ -381,6 +395,7 @@ automations-suite/
 ```
 
 **File Type Support**:
+
 ```json
 {
   "supported_extensions": [
@@ -400,6 +415,7 @@ automations-suite/
 ### Documentation Configuration
 
 **Auto-Generation Settings**:
+
 ```json
 {
   "auto_generate": true,
@@ -413,6 +429,7 @@ automations-suite/
 ```
 
 **Documentation Sources**:
+
 ```json
 {
   "preferred_sources": [
@@ -430,7 +447,7 @@ automations-suite/
 
 ## Career Automation Configuration
 
-### Master Config Section
+ Master Config Section
 
 ```json
 {
@@ -466,6 +483,7 @@ automations-suite/
 ### Resume Templates
 
 **Modern Developer Template**:
+
 ```json
 {
   "template": "modern_developer",
@@ -484,6 +502,7 @@ automations-suite/
 ```
 
 **Academic Template**:
+
 ```json
 {
   "template": "academic",
@@ -502,6 +521,7 @@ automations-suite/
 ```
 
 **Creative Template**:
+
 ```json
 {
   "template": "creative",
@@ -521,6 +541,7 @@ automations-suite/
 ### Portfolio Configuration
 
 **Portfolio Settings**:
+
 ```json
 {
   "portfolio_generator": {
@@ -536,6 +557,7 @@ automations-suite/
 ```
 
 **Deployment Options**:
+
 ```json
 {
   "deploy_target": "github_pages",
@@ -549,7 +571,7 @@ automations-suite/
 
 ## Innovation Automation Configuration
 
-### Master Config Section
+ Master Config Section
 
 ```json
 {
@@ -583,6 +605,7 @@ automations-suite/
 ### Idea Generation Settings
 
 **Interest Categories**:
+
 ```json
 {
   "based_on_interests": [
@@ -601,6 +624,7 @@ automations-suite/
 ```
 
 **Market Research Settings**:
+
 ```json
 {
   "market_research": true,
@@ -615,6 +639,7 @@ automations-suite/
 ### Prototyping Configuration
 
 **Prototype Templates**:
+
 ```json
 {
   "templates": [
@@ -629,6 +654,7 @@ automations-suite/
 ```
 
 **Deployment Settings**:
+
 ```json
 {
   "deployment_ready": true,
@@ -644,7 +670,7 @@ automations-suite/
 
 ## Workflow Automation Configuration
 
-### Master Config Section
+ Master Config Section
 
 ```json
 {
@@ -677,6 +703,7 @@ automations-suite/
 ### Session Actions Configuration
 
 **Start Actions**:
+
 ```json
 {
   "start_actions": [
@@ -692,6 +719,7 @@ automations-suite/
 ```
 
 **End Actions**:
+
 ```json
 {
   "end_actions": [
@@ -709,6 +737,7 @@ automations-suite/
 ### Schedule Configuration
 
 **Work Schedule**:
+
 ```json
 {
   "schedule": {
@@ -727,6 +756,7 @@ automations-suite/
 ```
 
 **Session Types**:
+
 ```json
 {
   "session_types": {

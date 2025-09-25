@@ -1,0 +1,12 @@
+/node_modules
+/dist
+/build
+/public/assets
+/public/assets/css
+/public/assets/js
+/public/assets/img
+/public/assets/fonts
+/public/assets/libs
+/public/assets/plugins
+/public/assets/plugins/bootstrap
+/public/assets/plugins/jquery

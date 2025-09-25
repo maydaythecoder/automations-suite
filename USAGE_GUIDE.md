@@ -5,6 +5,7 @@
 Your automation suite is now fully functional! Here are the key commands:
 
 ### 🎵 Music Automations
+
 ```bash
 # Start smart focus music
 node automation-controller.js "Start smart focus music"
@@ -19,6 +20,7 @@ node automation-controller.js "Stop smart music"
 ```
 
 ### 🌐 Web Automations
+
 ```bash
 # Declutter tabs
 node automation-controller.js "Declutter my tabs"
@@ -31,6 +33,7 @@ node automation-controller.js "Save current session"
 ```
 
 ### 💻 Development Automations
+
 ```bash
 # Analyze code health
 node automation-controller.js "Analyze my code"
@@ -40,6 +43,7 @@ node automation-controller.js "Generate project docs"
 ```
 
 ### 📝 Career Automations
+
 ```bash
 # Build resume from GitHub
 node automation-controller.js "Build my resume"
@@ -49,6 +53,7 @@ node automation-controller.js "Generate portfolio"
 ```
 
 ### 💡 Innovation Automations
+
 ```bash
 # Generate app ideas
 node automation-controller.js "Generate app ideas"
@@ -58,6 +63,7 @@ node automation-controller.js "Generate AI app ideas"
 ```
 
 ### 🔄 Workflow Automations
+
 ```bash
 # Start work session
 node automation-controller.js "Start work session"
@@ -78,6 +84,7 @@ node automation-controller.js interactive
 ```
 
 This allows you to type commands naturally:
+
 - "Start smart focus music"
 - "Declutter my tabs"
 - "Analyze my code"
@@ -94,6 +101,7 @@ node automation-controller.js status
 ## 🔧 Individual Automation Commands
 
 ### Music Controller
+
 ```bash
 node music/smart-music-controller.js start
 node music/smart-music-controller.js switch coding
@@ -101,6 +109,7 @@ node music/smart-music-controller.js status
 ```
 
 ### Tab Manager
+
 ```bash
 node web/tab-manager.js analyze
 node web/tab-manager.js declutter
@@ -108,12 +117,14 @@ node web/tab-manager.js group
 ```
 
 ### Code Analyzer
+
 ```bash
 node development/code-analyzer.js analyze
 node development/code-analyzer.js docs
 ```
 
 ### Resume Builder
+
 ```bash
 node career/resume-builder.js analyze
 node career/resume-builder.js build
@@ -121,12 +132,14 @@ node career/resume-builder.js portfolio
 ```
 
 ### App Idea Generator
+
 ```bash
 node innovation/app-idea-generator.js generate 5
 node innovation/app-idea-generator.js category ai_ml
 ```
 
 ### Work Session Manager
+
 ```bash
 node workflows/work-session-manager.js start focus
 node workflows/work-session-manager.js status

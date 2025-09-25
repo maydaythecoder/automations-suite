@@ -14,7 +14,7 @@ The Music Automations module provides intelligent music control based on your wo
 
 ## Architecture
 
-```
+``` txt
 Music Automations
 ├── smart-music-controller.js    # Main controller
 ├── spotify-integration.js       # Spotify API integration
@@ -62,6 +62,7 @@ async detectContext() {
 ```
 
 **Context Priority Order**:
+
 1. Meetings (highest priority)
 2. Coding
 3. Creative
@@ -74,7 +75,7 @@ Handles direct Spotify Desktop app control via AppleScript.
 
 **File**: `music/spotify-integration.js`
 
-#### Key Methods
+ Key Methods
 
 ```javascript
 // Get current track info
@@ -148,12 +149,14 @@ Edit `configs/music-contexts.json`:
 
 ### Finding Spotify Playlist URIs
 
-**Method 1: Spotify Desktop App**
+Method 1: Spotify Desktop App
+
 1. Right-click on playlist
 2. Select "Share" → "Copy Spotify URI"
 3. Format: `spotify:playlist:37i9dQZF1DXcBWIGoYBM5M`
 
-**Method 2: Spotify Web**
+Method 2: Spotify Web
+
 1. Go to open.spotify.com
 2. Find your playlist
 3. Click "..." → "Share" → "Copy link to playlist"
@@ -236,6 +239,7 @@ const contextKeywords = {
 ### Example Detection
 
 **Coding Context Triggered By**:
+
 - `github.com/username/repo`
 - `stackoverflow.com/questions`
 - `localhost:3000`
@@ -243,12 +247,14 @@ const contextKeywords = {
 - Tab title containing "code", "dev", "programming"
 
 **Focus Context Triggered By**:
+
 - `docs.google.com/document`
 - `medium.com/article`
 - `dev.to/post`
 - Tab title containing "reading", "learning", "tutorial"
 
 **Meeting Context Triggered By**:
+
 - `zoom.us/j/meeting-id`
 - `meet.google.com/meeting`
 - `teams.microsoft.com/call`
@@ -259,6 +265,7 @@ const contextKeywords = {
 ### AppleScript Commands
 
 **Play Playlist**:
+
 ```applescript
 tell application "Spotify"
     play track "spotify:playlist:PLAYLIST_ID"
@@ -266,6 +273,7 @@ end tell
 ```
 
 **Set Volume**:
+
 ```applescript
 tell application "Spotify"
     set sound volume to 60
@@ -273,6 +281,7 @@ end tell
 ```
 
 **Get Current Track**:
+
 ```applescript
 tell application "Spotify"
     if player state is playing then
@@ -287,6 +296,7 @@ end tell
 ```
 
 **Pause/Resume**:
+
 ```applescript
 tell application "Spotify"
     pause
@@ -311,6 +321,7 @@ try {
 ```
 
 **Common Errors**:
+
 - Spotify not running
 - Invalid playlist URI
 - AppleScript permissions denied
@@ -321,6 +332,7 @@ try {
 ### Usage Tracking
 
 The system tracks:
+
 - Context switches per day
 - Most used playlists
 - Productivity patterns
@@ -342,6 +354,7 @@ The system tracks:
 **Symptoms**: Music stays on same playlist despite context changes
 
 **Solutions**:
+
 1. Check if Spotify is running
 2. Verify playlist URIs in configuration
 3. Ensure AppleScript permissions are granted
@@ -352,6 +365,7 @@ The system tracks:
 **Symptoms**: Music switches to wrong context
 
 **Solutions**:
+
 1. Add more specific keywords to contexts
 2. Check priority order in configuration
 3. Review tab titles being scanned
@@ -362,6 +376,7 @@ The system tracks:
 **Symptoms**: Volume doesn't change or changes incorrectly
 
 **Solutions**:
+
 1. Adjust volume settings in configuration
 2. Check Spotify's own volume control
 3. Verify system audio settings
@@ -372,6 +387,7 @@ The system tracks:
 **Symptoms**: "Permission denied" or "Not authorized" errors
 
 **Solutions**:
+
 1. System Preferences → Security & Privacy → Privacy
 2. Select "Accessibility" from left sidebar
 3. Add Terminal, VS Code, and other apps
@@ -399,6 +415,7 @@ node music/spotify-integration.js playlists
 ### Log Files
 
 Check log files in `music/output/` directory:
+
 - `music-controller.log` - Controller activity
 - `spotify-integration.log` - Spotify API calls
 - `context-detection.log` - Context detection events
@@ -408,6 +425,7 @@ Check log files in `music/output/` directory:
 ### Work Session Manager
 
 Music automation integrates with work sessions:
+
 - Starts automatically when work session begins
 - Switches context based on session type
 - Pauses during breaks
@@ -416,6 +434,7 @@ Music automation integrates with work sessions:
 ### Tab Manager
 
 Coordinates with tab management:
+
 - Context detection uses tab analysis
 - Tab changes trigger music switches
 - Session saving includes music context
@@ -423,6 +442,7 @@ Coordinates with tab management:
 ### Meeting Detection
 
 Automatic meeting detection:
+
 - Monitors for meeting URLs
 - Immediately switches to meeting context
 - Pauses or reduces volume
