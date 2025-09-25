@@ -134,25 +134,16 @@ class SpotifyIntegration {
 
     async getPlaylists() {
         try {
-            const script = `
-                tell application "Spotify"
-                    set playlistList to {}
-                    repeat with p in playlists
-                        set playlistName to name of p
-                        set playlistUri to spotify url of p
-                        set playlistList to playlistList & (playlistName & "|" & playlistUri)
-                    end repeat
-                    return playlistList as string
-                end tell
-            `;
+            const script = `tell application "Spotify" to get name of user playlists`;
 
             const result = execSync(`osascript -e '${script}'`, { encoding: 'utf8' });
-            const playlists = result.trim().split(',');
+            const playlistNames = result.trim().split(', ');
             
-            return playlists.map(playlist => {
-                const [name, uri] = playlist.split('|');
-                return { name: name.trim(), uri: uri.trim() };
-            });
+            // For now, return a simplified list
+            return playlistNames.map(name => ({
+                name: name.trim(),
+                uri: `spotify:playlist:${name.toLowerCase().replace(/\s+/g, '-')}`
+            }));
         } catch (error) {
             return { error: error.message };
         }
