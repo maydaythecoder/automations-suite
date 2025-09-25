@@ -7,7 +7,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const SpotifyIntegration = require('./spotify-integration');
+const SpotifyWebIntegration = require('./spotify-web-api-integration');
 
 class SmartMusicController {
     constructor() {
@@ -15,7 +15,7 @@ class SmartMusicController {
         this.config = this.loadConfig();
         this.currentContext = 'default';
         this.isRunning = false;
-        this.spotify = new SpotifyIntegration();
+        this.spotify = new SpotifyWebIntegration();
         this.currentTrack = null;
         this.lastUpdate = null;
     }
@@ -110,8 +110,19 @@ class SmartMusicController {
         console.log(`   Volume: ${contextConfig.volume}%`);
         console.log(`   Description: ${contextConfig.description}`);
         
-        // Use Spotify integration to actually switch
-        const result = await this.spotify.switchToContext(context);
+        // Ensure we're authenticated
+        if (!this.spotify.isAuthenticated) {
+            console.log('🔐 Authenticating with Spotify...');
+            try {
+                await this.spotify.authenticate();
+            } catch (error) {
+                console.error(`❌ Authentication failed: ${error.message}`);
+                return false;
+            }
+        }
+        
+        // Use Spotify Web API integration to actually switch
+        const result = await this.spotify.switchToContext(context, contextConfig);
         
         if (result.success) {
             this.currentContext = context;
@@ -120,9 +131,6 @@ class SmartMusicController {
             return true;
         } else {
             console.error(`❌ Failed to switch to ${context}: ${result.error}`);
-            if (result.suggestion) {
-                console.log(`💡 Suggestion: ${result.suggestion}`);
-            }
             return false;
         }
     }
@@ -168,9 +176,17 @@ class SmartMusicController {
             const trackInfo = await this.spotify.getCurrentTrack();
             if (trackInfo.error) {
                 this.currentTrack = { error: trackInfo.error };
+            } else if (!trackInfo.playing) {
+                this.currentTrack = { message: trackInfo.message };
             } else {
                 this.currentTrack = {
-                    track: trackInfo.track,
+                    track: trackInfo.track.name,
+                    artist: trackInfo.track.artists.join(', '),
+                    album: trackInfo.track.album,
+                    albumArt: trackInfo.track.albumArt,
+                    duration: trackInfo.track.duration,
+                    position: trackInfo.track.position,
+                    device: trackInfo.device.name,
                     context: this.currentContext,
                     timestamp: new Date().toISOString()
                 };
@@ -185,9 +201,15 @@ class SmartMusicController {
         if (this.currentTrack) {
             if (this.currentTrack.error) {
                 console.log(`🎵 Current Track: ❌ ${this.currentTrack.error}`);
+            } else if (this.currentTrack.message) {
+                console.log(`🎵 Current Track: ${this.currentTrack.message}`);
             } else {
-                console.log(`🎵 Current Track: ${this.currentTrack.track}`);
+                console.log(`🎵 Current Track: ${this.currentTrack.track} - ${this.currentTrack.artist}`);
+                console.log(`   Album: ${this.currentTrack.album}`);
+                console.log(`   Device: ${this.currentTrack.device}`);
                 console.log(`   Context: ${this.currentTrack.context}`);
+                console.log(`   Duration: ${Math.floor(this.currentTrack.duration / 1000)}s`);
+                console.log(`   Position: ${Math.floor(this.currentTrack.position / 1000)}s`);
             }
         } else {
             console.log('🎵 Current Track: No track information available');
@@ -200,7 +222,7 @@ class SmartMusicController {
             isRunning: this.isRunning,
             currentContext: this.currentContext,
             currentTrack: this.currentTrack,
-            spotifyRunning: this.spotify.isSpotifyRunning,
+            spotifyAuthenticated: this.spotify.isAuthenticated,
             lastUpdate: this.lastUpdate,
             availableContexts: Object.keys(this.config)
         };
@@ -209,7 +231,7 @@ class SmartMusicController {
     showStatus() {
         console.log('\n🎵 Smart Music Status:');
         console.log(`   Running: ${this.isRunning ? '✅ Yes' : '❌ No'}`);
-        console.log(`   Spotify: ${this.spotify.isSpotifyRunning ? '✅ Running' : '❌ Not Running'}`);
+        console.log(`   Spotify: ${this.spotify.isAuthenticated ? '✅ Authenticated' : '❌ Not Authenticated'}`);
         console.log(`   Current Context: ${this.currentContext}`);
         console.log(`   Available Contexts: ${Object.keys(this.config).join(', ')}`);
         

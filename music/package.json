@@ -1,0 +1,27 @@
+{
+  "name": "spotify-web-api-integration",
+  "version": "1.0.0",
+  "description": "Secure, cross-platform Spotify Web API integration",
+  "main": "spotify-web-api-integration.js",
+  "scripts": {
+    "start": "node spotify-web-api-integration.js",
+    "auth": "node spotify-web-api-integration.js auth",
+    "status": "node spotify-web-api-integration.js status",
+    "test": "node -e \"console.log('Testing Spotify integration...'); const Spotify = require('./spotify-web-api-integration.js'); console.log('✅ Module loads successfully');\""
+  },
+  "dependencies": {
+    "spotify-web-api-node": "^5.0.2"
+  },
+  "keywords": [
+    "spotify",
+    "music",
+    "api",
+    "oauth2",
+    "cross-platform"
+  ],
+  "author": "Automations Suite",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
