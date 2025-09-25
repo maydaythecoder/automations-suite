@@ -1,30 +1,61 @@
 {
   "coding": {
-    "playlist_uri": "spotify:playlist:REPLACE_WITH_YOUR_CODING_PLAYLIST_ID",
+    "playlist_uri": "spotify:playlist:37i9dQZF1DXcBWIGoYBM5M",
     "volume": 60,
-    "keywords": ["github", "stackoverflow", "dev", "code", "programming", "vscode", "cursor", "terminal"],
+    "keywords": [
+      "github",
+      "stackoverflow",
+      "dev",
+      "code",
+      "programming",
+      "vscode",
+      "cursor",
+      "terminal"
+    ],
     "description": "Upbeat music for coding sessions"
   },
   "focus": {
-    "playlist_uri": "spotify:playlist:REPLACE_WITH_YOUR_FOCUS_PLAYLIST_ID", 
+    "playlist_uri": "spotify:playlist:37i9dQZF1DX4WY4goJ5hcy",
     "volume": 40,
-    "keywords": ["docs", "reading", "research", "learning", "documentation", "tutorial", "medium"],
+    "keywords": [
+      "docs",
+      "reading",
+      "research",
+      "learning",
+      "documentation",
+      "tutorial",
+      "medium"
+    ],
     "description": "Ambient music for deep focus and reading"
   },
   "meetings": {
-    "playlist_uri": "spotify:playlist:REPLACE_WITH_YOUR_AMBIENT_PLAYLIST_ID",
+    "playlist_uri": "spotify:playlist:37i9dQZF1DX4sWSpwq3LiO",
     "volume": 20,
-    "keywords": ["zoom", "meet", "teams", "calendar", "call", "webex"],
+    "keywords": [
+      "zoom",
+      "meet",
+      "teams",
+      "calendar",
+      "call",
+      "webex"
+    ],
     "description": "Very quiet ambient music for meetings"
   },
   "creative": {
-    "playlist_uri": "spotify:playlist:REPLACE_WITH_YOUR_CREATIVE_PLAYLIST_ID",
+    "playlist_uri": "spotify:playlist:37i9dQZF1DX4JAvHpjipBk",
     "volume": 70,
-    "keywords": ["figma", "design", "adobe", "sketch", "photoshop", "canva"],
+    "keywords": [
+      "figma",
+      "design",
+      "adobe",
+      "sketch",
+      "photoshop",
+      "canva"
+    ],
     "description": "Inspiring music for creative work"
   },
   "default": {
-    "playlist_uri": "spotify:playlist:REPLACE_WITH_YOUR_DEFAULT_PLAYLIST_ID",
+    "playlist_uri": "spotify:playlist:37i9dQZF1DXcBWIGoYBM5M",
     "volume": 50,
     "keywords": [],
     "description": "General work music"
