@@ -117,6 +117,10 @@ class AutomationApp {
                         e.preventDefault();
                         this.showSection('help');
                         break;
+                    case '0':
+                        e.preventDefault();
+                        this.showSection('marketplace');
+                        break;
                 }
             }
         });
@@ -189,6 +193,9 @@ class AutomationApp {
                 break;
             case 'help':
                 this.loadHelpData();
+                break;
+            case 'marketplace':
+                this.loadMarketplaceData();
                 break;
         }
     }
@@ -1184,6 +1191,422 @@ class AutomationApp {
         container.scrollTop = container.scrollHeight;
     }
 
+    // Marketplace Methods
+    async loadMarketplaceData() {
+        try {
+            // Load featured automations
+            const featuredResponse = await fetch('/api/marketplace/featured?limit=6');
+            const featuredAutomations = await featuredResponse.json();
+            this.loadFeaturedAutomations(featuredAutomations);
+
+            // Load categories
+            const categoriesResponse = await fetch('/api/marketplace/categories');
+            const categoriesData = await categoriesResponse.json();
+            this.loadCategories(categoriesData);
+
+            // Setup marketplace event listeners
+            this.setupMarketplaceEvents();
+        } catch (error) {
+            console.error('Failed to load marketplace data:', error);
+            this.showToast('Error', 'Failed to load marketplace data', 'error');
+        }
+    }
+
+    loadFeaturedAutomations(automations) {
+        const container = document.getElementById('featuredAutomations');
+        container.innerHTML = '';
+
+        automations.forEach(automation => {
+            const card = document.createElement('div');
+            card.className = 'automation-card';
+            card.innerHTML = `
+                <div class="category-badge">${automation.category}</div>
+                <h4>${automation.name}</h4>
+                <p>${automation.description}</p>
+                <div class="author">by ${automation.authorDisplayName || automation.author}</div>
+                <div class="stats">
+                    <span>📥 ${automation.stats.downloads}</span>
+                    <span>⭐ ${automation.stats.rating.toFixed(1)}</span>
+                    <span>📅 ${new Date(automation.createdAt).toLocaleDateString()}</span>
+                </div>
+                <div class="actions">
+                    <button class="nes-btn is-primary" onclick="viewAutomation('${automation.id}')">
+                        <i class="fas fa-eye"></i>
+                        VIEW
+                    </button>
+                    <button class="nes-btn is-success" onclick="installAutomation('${automation.id}')">
+                        <i class="fas fa-download"></i>
+                        INSTALL
+                    </button>
+                </div>
+            `;
+
+            container.appendChild(card);
+        });
+    }
+
+    loadCategories(categoriesData) {
+        const container = document.getElementById('categoriesGrid');
+        container.innerHTML = '';
+
+        Object.entries(categoriesData.categories).forEach(([key, category]) => {
+            const stats = categoriesData.stats[key] || { count: 0 };
+            const card = document.createElement('div');
+            card.className = 'category-card';
+            card.innerHTML = `
+                <i class="${category.icon} icon" style="color: ${category.color}"></i>
+                <h4>${category.name}</h4>
+                <p>${category.description}</p>
+                <div class="count">${stats.count} automations</div>
+            `;
+
+            card.addEventListener('click', () => {
+                this.browseCategory(key);
+            });
+
+            container.appendChild(card);
+        });
+    }
+
+    async browseCategory(category) {
+        try {
+            const response = await fetch(`/api/marketplace/category/${category}?limit=20`);
+            const automations = await response.json();
+            this.showSearchResults(automations, `Category: ${category}`);
+        } catch (error) {
+            this.showToast('Error', 'Failed to load category automations', 'error');
+        }
+    }
+
+    async searchMarketplace() {
+        const query = document.getElementById('marketplaceSearch').value;
+        const category = document.getElementById('categoryFilter').value;
+        const sortBy = document.getElementById('sortBy').value;
+
+        try {
+            const params = new URLSearchParams();
+            if (query) params.append('q', query);
+            if (category) params.append('category', category);
+            if (sortBy) params.append('sortBy', sortBy);
+
+            const response = await fetch(`/api/marketplace/search?${params}`);
+            const automations = await response.json();
+            this.showSearchResults(automations, query ? `Search: "${query}"` : 'All Automations');
+        } catch (error) {
+            this.showToast('Error', 'Search failed', 'error');
+        }
+    }
+
+    showSearchResults(automations, title) {
+        const container = document.getElementById('searchResults');
+        const resultsContainer = document.getElementById('searchResultsContainer');
+        
+        container.innerHTML = '';
+        
+        if (automations.length === 0) {
+            container.innerHTML = '<p>No automations found.</p>';
+        } else {
+            automations.forEach(automation => {
+                const item = document.createElement('div');
+                item.className = 'search-result-item';
+                item.innerHTML = `
+                    <h4>${automation.name}</h4>
+                    <p>${automation.description}</p>
+                    <div class="meta">
+                        <span>by ${automation.authorDisplayName || automation.author}</span>
+                        <span>📥 ${automation.stats.downloads} • ⭐ ${automation.stats.rating.toFixed(1)}</span>
+                    </div>
+                `;
+
+                item.addEventListener('click', () => {
+                    this.viewAutomation(automation.id);
+                });
+
+                container.appendChild(item);
+            });
+        }
+
+        resultsContainer.style.display = 'block';
+        resultsContainer.querySelector('.title').textContent = title;
+    }
+
+    async viewAutomation(automationId) {
+        try {
+            const response = await fetch(`/api/marketplace/automation/${automationId}`);
+            const automation = await response.json();
+            this.showAutomationDetails(automation);
+        } catch (error) {
+            this.showToast('Error', 'Failed to load automation details', 'error');
+        }
+    }
+
+    showAutomationDetails(automation) {
+        const modal = document.getElementById('automationModal');
+        const detailsContainer = document.getElementById('automationDetails');
+        
+        detailsContainer.innerHTML = `
+            <div class="automation-header">
+                <div class="automation-title">
+                    <h2>${automation.name}</h2>
+                    <div class="author">by ${automation.authorDisplayName || automation.author}</div>
+                    <div class="description">${automation.longDescription || automation.description}</div>
+                </div>
+                <div class="automation-stats">
+                    <div class="stat">
+                        <span class="stat-value">${automation.stats.downloads}</span>
+                        <span>DOWNLOADS</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value">${automation.stats.rating.toFixed(1)}</span>
+                        <span>RATING</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value">${automation.stats.installs}</span>
+                        <span>INSTALLS</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="automation-info">
+                <div>
+                    <h4>DETAILS</h4>
+                    <p><strong>Version:</strong> ${automation.version}</p>
+                    <p><strong>Category:</strong> ${automation.category}</p>
+                    <p><strong>License:</strong> ${automation.license}</p>
+                    <p><strong>Created:</strong> ${new Date(automation.createdAt).toLocaleDateString()}</p>
+                    <p><strong>Updated:</strong> ${new Date(automation.updatedAt).toLocaleDateString()}</p>
+                </div>
+                <div>
+                    <h4>TAGS</h4>
+                    <div class="automation-tags">
+                        ${automation.tags.map(tag => `<span class="automation-tag">${tag}</span>`).join('')}
+                    </div>
+                    ${automation.dependencies.length > 0 ? `
+                        <h4>DEPENDENCIES</h4>
+                        <p>${automation.dependencies.join(', ')}</p>
+                    ` : ''}
+                </div>
+            </div>
+            
+            ${automation.documentation ? `
+                <div>
+                    <h4>DOCUMENTATION</h4>
+                    <p>${automation.documentation}</p>
+                </div>
+            ` : ''}
+            
+            <div class="automation-actions">
+                <button class="nes-btn is-primary" onclick="installAutomation('${automation.id}')">
+                    <i class="fas fa-download"></i>
+                    INSTALL AUTOMATION
+                </button>
+                <button class="nes-btn" onclick="downloadAutomation('${automation.id}')">
+                    <i class="fas fa-download"></i>
+                    DOWNLOAD
+                </button>
+            </div>
+        `;
+
+        modal.classList.add('show');
+    }
+
+    async installAutomation(automationId) {
+        // Check if user is authenticated
+        if (!this.currentUser) {
+            this.showAuthModal();
+            return;
+        }
+
+        try {
+            const response = await fetch(`/api/marketplace/automation/${automationId}/install`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${this.authToken}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            const result = await response.json();
+            if (result.success) {
+                this.showToast('Success', 'Automation installed successfully!', 'success');
+            } else {
+                this.showToast('Error', result.error, 'error');
+            }
+        } catch (error) {
+            this.showToast('Error', 'Failed to install automation', 'error');
+        }
+    }
+
+    async downloadAutomation(automationId) {
+        try {
+            const response = await fetch(`/api/marketplace/automation/${automationId}/download`, {
+                method: 'POST'
+            });
+
+            const result = await response.json();
+            if (result.success) {
+                this.showToast('Success', 'Automation downloaded!', 'success');
+            } else {
+                this.showToast('Error', result.error, 'error');
+            }
+        } catch (error) {
+            this.showToast('Error', 'Failed to download automation', 'error');
+        }
+    }
+
+    // Authentication Methods
+    showAuthModal() {
+        const modal = document.getElementById('authModal');
+        modal.classList.add('show');
+    }
+
+    hideAuthModal() {
+        const modal = document.getElementById('authModal');
+        modal.classList.remove('show');
+    }
+
+    showLoginForm() {
+        document.getElementById('loginForm').style.display = 'block';
+        document.getElementById('registerForm').style.display = 'none';
+        document.getElementById('authModalTitle').textContent = 'LOGIN';
+    }
+
+    showRegisterForm() {
+        document.getElementById('loginForm').style.display = 'none';
+        document.getElementById('registerForm').style.display = 'block';
+        document.getElementById('authModalTitle').textContent = 'CREATE ACCOUNT';
+    }
+
+    async loginUser() {
+        const username = document.getElementById('loginUsername').value;
+        const password = document.getElementById('loginPassword').value;
+
+        if (!username || !password) {
+            this.showToast('Error', 'Please fill in all fields', 'error');
+            return;
+        }
+
+        try {
+            const response = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username, password })
+            });
+
+            const result = await response.json();
+            if (result.success) {
+                this.currentUser = result.user;
+                this.authToken = result.sessionToken;
+                this.hideAuthModal();
+                this.showToast('Success', `Welcome back, ${result.user.displayName}!`, 'success');
+                this.updateUserInterface();
+            } else {
+                this.showToast('Error', result.error, 'error');
+            }
+        } catch (error) {
+            this.showToast('Error', 'Login failed', 'error');
+        }
+    }
+
+    async registerUser() {
+        const username = document.getElementById('registerUsername').value;
+        const email = document.getElementById('registerEmail').value;
+        const password = document.getElementById('registerPassword').value;
+        const displayName = document.getElementById('registerDisplayName').value;
+
+        if (!username || !email || !password) {
+            this.showToast('Error', 'Please fill in all required fields', 'error');
+            return;
+        }
+
+        try {
+            const response = await fetch('/api/auth/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username, email, password, displayName })
+            });
+
+            const result = await response.json();
+            if (result.success) {
+                this.showToast('Success', 'Account created successfully! Please login.', 'success');
+                this.showLoginForm();
+            } else {
+                this.showToast('Error', result.error, 'error');
+            }
+        } catch (error) {
+            this.showToast('Error', 'Registration failed', 'error');
+        }
+    }
+
+    updateUserInterface() {
+        // Update header to show user info
+        const headerActions = document.querySelector('.header-actions');
+        if (this.currentUser) {
+            // Add user info to header
+            const userInfo = document.createElement('div');
+            userInfo.className = 'user-info';
+            userInfo.innerHTML = `
+                <span>👤 ${this.currentUser.displayName}</span>
+                <button class="nes-btn" onclick="logoutUser()">LOGOUT</button>
+            `;
+            headerActions.insertBefore(userInfo, headerActions.firstChild);
+        }
+    }
+
+    async logoutUser() {
+        try {
+            await fetch('/api/auth/logout', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${this.authToken}`
+                }
+            });
+
+            this.currentUser = null;
+            this.authToken = null;
+            this.showToast('Success', 'Logged out successfully', 'success');
+            this.updateUserInterface();
+        } catch (error) {
+            this.showToast('Error', 'Logout failed', 'error');
+        }
+    }
+
+    setupMarketplaceEvents() {
+        // Auth modal close
+        document.getElementById('authModalClose').addEventListener('click', () => {
+            this.hideAuthModal();
+        });
+
+        // Automation modal close
+        document.getElementById('automationModalClose').addEventListener('click', () => {
+            document.getElementById('automationModal').classList.remove('show');
+        });
+
+        // Close modals when clicking outside
+        document.getElementById('authModal').addEventListener('click', (e) => {
+            if (e.target.id === 'authModal') {
+                this.hideAuthModal();
+            }
+        });
+
+        document.getElementById('automationModal').addEventListener('click', (e) => {
+            if (e.target.id === 'automationModal') {
+                document.getElementById('automationModal').classList.remove('show');
+            }
+        });
+
+        // Search on Enter key
+        document.getElementById('marketplaceSearch').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                this.searchMarketplace();
+            }
+        });
+    }
+
     // Cleanup method
     destroy() {
         if (this.musicUpdateInterval) {
@@ -1280,6 +1703,61 @@ function endSession() {
 function showAnalyticsTab(type) {
     if (window.automationApp) {
         window.automationApp.showAnalyticsTab(type);
+    }
+}
+
+// Marketplace global functions
+function searchMarketplace() {
+    if (window.automationApp) {
+        window.automationApp.searchMarketplace();
+    }
+}
+
+function viewAutomation(id) {
+    if (window.automationApp) {
+        window.automationApp.viewAutomation(id);
+    }
+}
+
+function installAutomation(id) {
+    if (window.automationApp) {
+        window.automationApp.installAutomation(id);
+    }
+}
+
+function downloadAutomation(id) {
+    if (window.automationApp) {
+        window.automationApp.downloadAutomation(id);
+    }
+}
+
+function loginUser() {
+    if (window.automationApp) {
+        window.automationApp.loginUser();
+    }
+}
+
+function registerUser() {
+    if (window.automationApp) {
+        window.automationApp.registerUser();
+    }
+}
+
+function showLoginForm() {
+    if (window.automationApp) {
+        window.automationApp.showLoginForm();
+    }
+}
+
+function showRegisterForm() {
+    if (window.automationApp) {
+        window.automationApp.showRegisterForm();
+    }
+}
+
+function logoutUser() {
+    if (window.automationApp) {
+        window.automationApp.logoutUser();
     }
 }
 

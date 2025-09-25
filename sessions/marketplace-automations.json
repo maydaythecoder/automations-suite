@@ -1,0 +1,424 @@
+{
+  "7b2e5905-df09-450e-beab-d16d5a87ad69": {
+    "id": "7b2e5905-df09-450e-beab-d16d5a87ad69",
+    "name": "Smart Email Organizer",
+    "description": "Automatically organize emails by priority and category",
+    "longDescription": "This automation uses AI to analyze incoming emails and automatically sorts them into folders based on content, sender, and priority. It can also flag urgent emails and create follow-up reminders.",
+    "category": "communication",
+    "version": "1.2.0",
+    "author": "demo-user",
+    "authorDisplayName": "Productivity Pro",
+    "createdAt": "2025-09-25T01:11:03.643Z",
+    "updatedAt": "2025-09-25T01:11:03.649Z",
+    "code": "// Smart Email Organizer\nclass EmailOrganizer {\n    async organizeEmails() {\n        const emails = await this.getUnreadEmails();\n        for (const email of emails) {\n            const category = await this.categorizeEmail(email);\n            await this.moveToFolder(email, category);\n        }\n    }\n}",
+    "config": {
+      "folders": [
+        "urgent",
+        "work",
+        "personal",
+        "newsletters"
+      ],
+      "keywords": {
+        "urgent": [
+          "urgent",
+          "asap",
+          "deadline"
+        ],
+        "work": [
+          "meeting",
+          "project",
+          "report"
+        ]
+      }
+    },
+    "dependencies": [
+      "nodemailer",
+      "natural"
+    ],
+    "tags": [
+      "email",
+      "productivity",
+      "ai",
+      "organization"
+    ],
+    "screenshots": [],
+    "documentation": "Install and configure your email provider credentials. The automation will run every 15 minutes to organize new emails.",
+    "license": "MIT",
+    "isPublic": true,
+    "stats": {
+      "downloads": 2,
+      "rating": 4.25,
+      "reviews": 2,
+      "installs": 0
+    },
+    "requirements": {
+      "nodeVersion": ">=16.0.0",
+      "dependencies": [
+        "nodemailer",
+        "natural"
+      ],
+      "permissions": [
+        "email:read",
+        "email:write"
+      ]
+    },
+    "reviews": [
+      {
+        "id": "64727b30-8136-4657-9333-790d5a1a78e7",
+        "username": "reviewer1",
+        "rating": 4.5,
+        "review": "Great automation! Very useful.",
+        "createdAt": "2025-09-25T01:11:03.650Z"
+      },
+      {
+        "id": "d95b3743-6b3c-4cb5-8372-9bd3347cbae4",
+        "username": "reviewer2",
+        "rating": 4,
+        "review": "Works well, could use more features.",
+        "createdAt": "2025-09-25T01:11:03.650Z"
+      }
+    ]
+  },
+  "595b2f05-5d8a-4f05-ac42-021da967cc99": {
+    "id": "595b2f05-5d8a-4f05-ac42-021da967cc99",
+    "name": "Code Quality Monitor",
+    "description": "Monitor code quality and suggest improvements",
+    "longDescription": "Continuously monitors your codebase for quality issues, technical debt, and potential bugs. Provides detailed reports and suggestions for improvement.",
+    "category": "development",
+    "version": "2.1.0",
+    "author": "demo-user",
+    "authorDisplayName": "DevTools Master",
+    "createdAt": "2025-09-25T01:11:03.650Z",
+    "updatedAt": "2025-09-25T01:11:03.650Z",
+    "code": "// Code Quality Monitor\nclass CodeQualityMonitor {\n    async analyzeCodebase(path) {\n        const files = await this.scanFiles(path);\n        const issues = [];\n        for (const file of files) {\n            const analysis = await this.analyzeFile(file);\n            issues.push(...analysis.issues);\n        }\n        return this.generateReport(issues);\n    }\n}",
+    "config": {
+      "rules": [
+        "complexity",
+        "duplication",
+        "maintainability"
+      ],
+      "thresholds": {
+        "complexity": 10,
+        "duplication": 5
+      }
+    },
+    "dependencies": [
+      "eslint",
+      "sonarjs"
+    ],
+    "tags": [
+      "code",
+      "quality",
+      "monitoring",
+      "development"
+    ],
+    "screenshots": [],
+    "documentation": "Configure your project paths and quality thresholds. The automation will scan your code and generate quality reports.",
+    "license": "MIT",
+    "isPublic": true,
+    "stats": {
+      "downloads": 2,
+      "rating": 4.25,
+      "reviews": 2,
+      "installs": 0
+    },
+    "requirements": {
+      "nodeVersion": ">=14.0.0",
+      "dependencies": [
+        "eslint",
+        "sonarjs"
+      ],
+      "permissions": [
+        "file:read"
+      ]
+    },
+    "reviews": [
+      {
+        "id": "2e731545-fce0-4ca7-9d76-1cde4ea36605",
+        "username": "reviewer1",
+        "rating": 4.5,
+        "review": "Great automation! Very useful.",
+        "createdAt": "2025-09-25T01:11:03.652Z"
+      },
+      {
+        "id": "9d6dbd7f-b729-4564-b28c-82d3ecbebc0f",
+        "username": "reviewer2",
+        "rating": 4,
+        "review": "Works well, could use more features.",
+        "createdAt": "2025-09-25T01:11:03.653Z"
+      }
+    ]
+  },
+  "2464f0ce-8617-4868-8146-0e60dc930b4c": {
+    "id": "2464f0ce-8617-4868-8146-0e60dc930b4c",
+    "name": "Focus Timer Pro",
+    "description": "Advanced Pomodoro timer with smart breaks",
+    "longDescription": "An intelligent Pomodoro timer that adapts to your work patterns. It learns your productivity cycles and suggests optimal break times and work sessions.",
+    "category": "productivity",
+    "version": "1.5.0",
+    "author": "demo-user",
+    "authorDisplayName": "Focus Expert",
+    "createdAt": "2025-09-25T01:11:03.653Z",
+    "updatedAt": "2025-09-25T01:11:03.653Z",
+    "code": "// Focus Timer Pro\nclass FocusTimer {\n    constructor() {\n        this.workSessions = [];\n        this.breakSessions = [];\n    }\n    \n    async startSession(type = 'work') {\n        const duration = await this.calculateOptimalDuration(type);\n        return this.runTimer(duration, type);\n    }\n}",
+    "config": {
+      "workDuration": 25,
+      "breakDuration": 5,
+      "longBreakDuration": 15,
+      "sessionsPerCycle": 4
+    },
+    "dependencies": [
+      "node-notifier"
+    ],
+    "tags": [
+      "timer",
+      "productivity",
+      "focus",
+      "pomodoro"
+    ],
+    "screenshots": [],
+    "documentation": "Customize your work and break durations. The timer will notify you when sessions start and end.",
+    "license": "MIT",
+    "isPublic": true,
+    "stats": {
+      "downloads": 2,
+      "rating": 4.25,
+      "reviews": 2,
+      "installs": 0
+    },
+    "requirements": {
+      "nodeVersion": ">=12.0.0",
+      "dependencies": [
+        "node-notifier"
+      ],
+      "permissions": [
+        "notification"
+      ]
+    },
+    "reviews": [
+      {
+        "id": "d0d65942-ce76-45ba-a156-a360a04305cd",
+        "username": "reviewer1",
+        "rating": 4.5,
+        "review": "Great automation! Very useful.",
+        "createdAt": "2025-09-25T01:11:03.654Z"
+      },
+      {
+        "id": "15ee10ff-f231-4ae2-80ce-dd4600edb58f",
+        "username": "reviewer2",
+        "rating": 4,
+        "review": "Works well, could use more features.",
+        "createdAt": "2025-09-25T01:11:03.654Z"
+      }
+    ]
+  },
+  "93b78c89-9482-4f6b-a9eb-632f44b2a1c0": {
+    "id": "93b78c89-9482-4f6b-a9eb-632f44b2a1c0",
+    "name": "Smart File Backup",
+    "description": "Intelligent file backup with version control",
+    "longDescription": "Automatically backs up your important files with intelligent versioning. It detects changes and creates incremental backups, saving space while ensuring data safety.",
+    "category": "system",
+    "version": "1.8.0",
+    "author": "demo-user",
+    "authorDisplayName": "Data Guardian",
+    "createdAt": "2025-09-25T01:11:03.655Z",
+    "updatedAt": "2025-09-25T01:11:03.655Z",
+    "code": "// Smart File Backup\nclass SmartBackup {\n    async backupFiles(sourcePath, backupPath) {\n        const changes = await this.detectChanges(sourcePath);\n        if (changes.length > 0) {\n            await this.createBackup(changes, backupPath);\n        }\n    }\n}",
+    "config": {
+      "backupInterval": "1h",
+      "retentionDays": 30,
+      "compressionLevel": 6
+    },
+    "dependencies": [
+      "fs-extra",
+      "archiver"
+    ],
+    "tags": [
+      "backup",
+      "files",
+      "version-control",
+      "system"
+    ],
+    "screenshots": [],
+    "documentation": "Configure your source and backup directories. The automation will monitor changes and create backups automatically.",
+    "license": "MIT",
+    "isPublic": true,
+    "stats": {
+      "downloads": 2,
+      "rating": 4.25,
+      "reviews": 2,
+      "installs": 0
+    },
+    "requirements": {
+      "nodeVersion": ">=14.0.0",
+      "dependencies": [
+        "fs-extra",
+        "archiver"
+      ],
+      "permissions": [
+        "file:read",
+        "file:write"
+      ]
+    },
+    "reviews": [
+      {
+        "id": "95f02d46-9120-49eb-8e93-5f3ba57966be",
+        "username": "reviewer1",
+        "rating": 4.5,
+        "review": "Great automation! Very useful.",
+        "createdAt": "2025-09-25T01:11:03.656Z"
+      },
+      {
+        "id": "aadb100f-83ca-4fac-bb34-b3d8b7d7e792",
+        "username": "reviewer2",
+        "rating": 4,
+        "review": "Works well, could use more features.",
+        "createdAt": "2025-09-25T01:11:03.656Z"
+      }
+    ]
+  },
+  "757be8a8-cc90-469e-862b-dea304ef980c": {
+    "id": "757be8a8-cc90-469e-862b-dea304ef980c",
+    "name": "Social Media Scheduler",
+    "description": "Schedule and optimize social media posts",
+    "longDescription": "Intelligently schedules your social media posts for optimal engagement. Analyzes your audience activity patterns and suggests the best times to post.",
+    "category": "communication",
+    "version": "2.0.0",
+    "author": "demo-user",
+    "authorDisplayName": "Social Media Guru",
+    "createdAt": "2025-09-25T01:11:03.656Z",
+    "updatedAt": "2025-09-25T01:11:03.656Z",
+    "code": "// Social Media Scheduler\nclass SocialScheduler {\n    async schedulePost(content, platforms, optimalTime) {\n        const scheduledTime = await this.findOptimalTime(platforms);\n        return this.schedulePost(content, platforms, scheduledTime);\n    }\n}",
+    "config": {
+      "platforms": [
+        "twitter",
+        "linkedin",
+        "facebook"
+      ],
+      "postingTimes": {
+        "twitter": [
+          "9:00",
+          "13:00",
+          "17:00"
+        ],
+        "linkedin": [
+          "8:00",
+          "12:00",
+          "16:00"
+        ]
+      }
+    },
+    "dependencies": [
+      "twitter-api-v2",
+      "linkedin-api"
+    ],
+    "tags": [
+      "social-media",
+      "scheduling",
+      "marketing",
+      "automation"
+    ],
+    "screenshots": [],
+    "documentation": "Connect your social media accounts and configure posting schedules. The automation will analyze engagement patterns and optimize posting times.",
+    "license": "MIT",
+    "isPublic": true,
+    "stats": {
+      "downloads": 2,
+      "rating": 4.25,
+      "reviews": 2,
+      "installs": 0
+    },
+    "requirements": {
+      "nodeVersion": ">=16.0.0",
+      "dependencies": [
+        "twitter-api-v2",
+        "linkedin-api"
+      ],
+      "permissions": [
+        "social:write"
+      ]
+    },
+    "reviews": [
+      {
+        "id": "cf7f787f-30b3-4759-98c3-afc3de88fa76",
+        "username": "reviewer1",
+        "rating": 4.5,
+        "review": "Great automation! Very useful.",
+        "createdAt": "2025-09-25T01:11:03.658Z"
+      },
+      {
+        "id": "3019c4cf-7c26-4a32-8d8e-231db60406c7",
+        "username": "reviewer2",
+        "rating": 4,
+        "review": "Works well, could use more features.",
+        "createdAt": "2025-09-25T01:11:03.659Z"
+      }
+    ]
+  },
+  "67c059b6-ea8b-46cc-aa2d-303fda558c63": {
+    "id": "67c059b6-ea8b-46cc-aa2d-303fda558c63",
+    "name": "Website Performance Monitor",
+    "description": "Monitor website performance and uptime",
+    "longDescription": "Continuously monitors your website's performance, uptime, and user experience. Alerts you when issues are detected and provides detailed performance reports.",
+    "category": "web",
+    "version": "1.3.0",
+    "author": "demo-user",
+    "authorDisplayName": "Web Performance Expert",
+    "createdAt": "2025-09-25T01:11:03.659Z",
+    "updatedAt": "2025-09-25T01:11:03.659Z",
+    "code": "// Website Performance Monitor\nclass PerformanceMonitor {\n    async monitorWebsite(url) {\n        const metrics = await this.measurePerformance(url);\n        const alerts = await this.checkThresholds(metrics);\n        return this.generateReport(metrics, alerts);\n    }\n}",
+    "config": {
+      "checkInterval": "5m",
+      "thresholds": {
+        "loadTime": 3000,
+        "uptime": 99.9
+      }
+    },
+    "dependencies": [
+      "puppeteer",
+      "lighthouse"
+    ],
+    "tags": [
+      "web",
+      "performance",
+      "monitoring",
+      "uptime"
+    ],
+    "screenshots": [],
+    "documentation": "Configure your website URLs and performance thresholds. The automation will monitor your sites and alert you to any issues.",
+    "license": "MIT",
+    "isPublic": true,
+    "stats": {
+      "downloads": 2,
+      "rating": 4.25,
+      "reviews": 2,
+      "installs": 0
+    },
+    "requirements": {
+      "nodeVersion": ">=16.0.0",
+      "dependencies": [
+        "puppeteer",
+        "lighthouse"
+      ],
+      "permissions": [
+        "network:read"
+      ]
+    },
+    "reviews": [
+      {
+        "id": "8bcb9338-159e-44dd-a2cc-e1ca41bbd26b",
+        "username": "reviewer1",
+        "rating": 4.5,
+        "review": "Great automation! Very useful.",
+        "createdAt": "2025-09-25T01:11:03.660Z"
+      },
+      {
+        "id": "7d199de3-9928-47ff-9ed3-da85ca2602bd",
+        "username": "reviewer2",
+        "rating": 4,
+        "review": "Works well, could use more features.",
+        "createdAt": "2025-09-25T01:11:03.660Z"
+      }
+    ]
+  }
+}

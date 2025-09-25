@@ -80,6 +80,10 @@
                         <i class="fas fa-question-circle"></i>
                         <span>HELP & COMMANDS</span>
                     </a>
+                    <a href="#marketplace" class="nav-item" data-section="marketplace">
+                        <i class="fas fa-store"></i>
+                        <span>MARKETPLACE</span>
+                    </a>
                 </nav>
             </aside>
 
@@ -524,6 +528,10 @@
                                     <kbd>Ctrl + 9</kbd>
                                     <span>Help & Commands</span>
                                 </div>
+                                <div class="shortcut-item">
+                                    <kbd>Ctrl + 0</kbd>
+                                    <span>Marketplace</span>
+                                </div>
                             </div>
                         </div>
 
@@ -549,6 +557,164 @@
                                         <code>session start focus</code> - Start focus session<br>
                                         <code>session start creative</code> - Start creative session<br>
                                         <code>session end</code> - End current session
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Marketplace Section -->
+                <section id="marketplace" class="section">
+                    <div class="section-header">
+                        <h2>AUTOMATION MARKETPLACE</h2>
+                        <p>DISCOVER, SHARE, AND INSTALL COMMUNITY AUTOMATIONS</p>
+                    </div>
+
+                    <div class="marketplace-controls">
+                        <!-- Search and Filters -->
+                        <div class="nes-container with-title">
+                            <p class="title"><i class="fas fa-search"></i> SEARCH & FILTERS</p>
+                            <div class="marketplace-search">
+                                <div class="search-input">
+                                    <div class="nes-field">
+                                        <input type="text" id="marketplaceSearch" class="nes-input" placeholder="Search automations...">
+                                    </div>
+                                    <button class="nes-btn is-primary" onclick="searchMarketplace()">
+                                        <i class="fas fa-search"></i>
+                                        SEARCH
+                                    </button>
+                                </div>
+                                <div class="search-filters">
+                                    <div class="filter-group">
+                                        <label for="categoryFilter">CATEGORY</label>
+                                        <div class="nes-select">
+                                            <select id="categoryFilter">
+                                                <option value="">ALL CATEGORIES</option>
+                                                <option value="productivity">PRODUCTIVITY</option>
+                                                <option value="development">DEVELOPMENT</option>
+                                                <option value="music">MUSIC & AUDIO</option>
+                                                <option value="web">WEB & BROWSING</option>
+                                                <option value="system">SYSTEM & OS</option>
+                                                <option value="communication">COMMUNICATION</option>
+                                                <option value="data">DATA & ANALYTICS</option>
+                                                <option value="creative">CREATIVE & DESIGN</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="filter-group">
+                                        <label for="sortBy">SORT BY</label>
+                                        <div class="nes-select">
+                                            <select id="sortBy">
+                                                <option value="downloads">DOWNLOADS</option>
+                                                <option value="rating">RATING</option>
+                                                <option value="newest">NEWEST</option>
+                                                <option value="updated">RECENTLY UPDATED</option>
+                                                <option value="name">NAME</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Featured Automations -->
+                        <div class="nes-container with-title">
+                            <p class="title"><i class="fas fa-star"></i> FEATURED AUTOMATIONS</p>
+                            <div class="automation-grid" id="featuredAutomations">
+                                <!-- Will be populated by JavaScript -->
+                            </div>
+                        </div>
+
+                        <!-- Categories -->
+                        <div class="nes-container with-title">
+                            <p class="title"><i class="fas fa-th-large"></i> CATEGORIES</p>
+                            <div class="categories-grid" id="categoriesGrid">
+                                <!-- Will be populated by JavaScript -->
+                            </div>
+                        </div>
+
+                        <!-- Search Results -->
+                        <div class="nes-container with-title" id="searchResultsContainer" style="display: none;">
+                            <p class="title"><i class="fas fa-list"></i> SEARCH RESULTS</p>
+                            <div class="search-results" id="searchResults">
+                                <!-- Will be populated by JavaScript -->
+                            </div>
+                        </div>
+
+                        <!-- Authentication Modal -->
+                        <div class="modal-overlay" id="authModal">
+                            <div class="modal-content auth-modal">
+                                <div class="modal-header">
+                                    <h3 id="authModalTitle">LOGIN</h3>
+                                    <button class="modal-close" id="authModalClose">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <!-- Login Form -->
+                                    <div id="loginForm" class="auth-form">
+                                        <div class="nes-field">
+                                            <label for="loginUsername">USERNAME</label>
+                                            <input type="text" id="loginUsername" class="nes-input" placeholder="Enter username">
+                                        </div>
+                                        <div class="nes-field">
+                                            <label for="loginPassword">PASSWORD</label>
+                                            <input type="password" id="loginPassword" class="nes-input" placeholder="Enter password">
+                                        </div>
+                                        <button class="nes-btn is-primary" onclick="loginUser()">
+                                            <i class="fas fa-sign-in-alt"></i>
+                                            LOGIN
+                                        </button>
+                                        <button class="nes-btn" onclick="showRegisterForm()">
+                                            <i class="fas fa-user-plus"></i>
+                                            CREATE ACCOUNT
+                                        </button>
+                                    </div>
+
+                                    <!-- Register Form -->
+                                    <div id="registerForm" class="auth-form" style="display: none;">
+                                        <div class="nes-field">
+                                            <label for="registerUsername">USERNAME</label>
+                                            <input type="text" id="registerUsername" class="nes-input" placeholder="Choose username">
+                                        </div>
+                                        <div class="nes-field">
+                                            <label for="registerEmail">EMAIL</label>
+                                            <input type="email" id="registerEmail" class="nes-input" placeholder="Enter email">
+                                        </div>
+                                        <div class="nes-field">
+                                            <label for="registerPassword">PASSWORD</label>
+                                            <input type="password" id="registerPassword" class="nes-input" placeholder="Choose password">
+                                        </div>
+                                        <div class="nes-field">
+                                            <label for="registerDisplayName">DISPLAY NAME</label>
+                                            <input type="text" id="registerDisplayName" class="nes-input" placeholder="Your display name">
+                                        </div>
+                                        <button class="nes-btn is-primary" onclick="registerUser()">
+                                            <i class="fas fa-user-plus"></i>
+                                            CREATE ACCOUNT
+                                        </button>
+                                        <button class="nes-btn" onclick="showLoginForm()">
+                                            <i class="fas fa-sign-in-alt"></i>
+                                            BACK TO LOGIN
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Automation Details Modal -->
+                        <div class="modal-overlay" id="automationModal">
+                            <div class="modal-content automation-modal">
+                                <div class="modal-header">
+                                    <h3 id="automationModalTitle">AUTOMATION DETAILS</h3>
+                                    <button class="modal-close" id="automationModalClose">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="automation-details" id="automationDetails">
+                                        <!-- Will be populated by JavaScript -->
                                     </div>
                                 </div>
                             </div>

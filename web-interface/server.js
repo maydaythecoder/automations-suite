@@ -12,6 +12,8 @@ const { execSync } = require('child_process');
 const AutomationController = require('../automation-controller');
 const WalkthroughSystem = require('./walkthrough-system');
 const MiniTerminal = require('./mini-terminal');
+const UserManager = require('./user-management');
+const Marketplace = require('./marketplace');
 
 class WebInterface {
     constructor() {
@@ -20,9 +22,12 @@ class WebInterface {
         this.automationController = new AutomationController();
         this.walkthroughSystem = new WalkthroughSystem();
         this.miniTerminal = new MiniTerminal();
+        this.userManager = new UserManager();
+        this.marketplace = new Marketplace();
         this.setupMiddleware();
         this.setupRoutes();
         this.setupWebSocket();
+        this.startCleanupTasks();
     }
 
     setupMiddleware() {
@@ -35,7 +40,21 @@ class WebInterface {
         this.app.use((req, res, next) => {
             res.header('Access-Control-Allow-Origin', '*');
             res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-            res.header('Access-Control-Allow-Headers', 'Content-Type');
+            res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+            next();
+        });
+
+        // Authentication middleware
+        this.app.use('/api', (req, res, next) => {
+            const authHeader = req.headers.authorization;
+            if (authHeader && authHeader.startsWith('Bearer ')) {
+                const token = authHeader.substring(7);
+                const validation = this.userManager.validateSession(token);
+                if (validation.valid) {
+                    req.user = validation.user;
+                    req.session = validation.session;
+                }
+            }
             next();
         });
     }
@@ -600,6 +619,267 @@ class WebInterface {
                 res.status(500).json({ error: error.message });
             }
         });
+
+        // Authentication routes
+        this.app.post('/api/auth/register', async (req, res) => {
+            try {
+                const result = await this.userManager.registerUser(req.body);
+                if (result.success) {
+                    res.json(result);
+                } else {
+                    res.status(400).json(result);
+                }
+            } catch (error) {
+                res.status(500).json({ error: error.message });
+            }
+        });
+
+        this.app.post('/api/auth/login', async (req, res) => {
+            try {
+                const { username, password } = req.body;
+                const result = await this.userManager.loginUser(username, password);
+                if (result.success) {
+                    res.json(result);
+                } else {
+                    res.status(401).json(result);
+                }
+            } catch (error) {
+                res.status(500).json({ error: error.message });
+            }
+        });
+
+        this.app.post('/api/auth/logout', (req, res) => {
+            try {
+                const authHeader = req.headers.authorization;
+                if (authHeader && authHeader.startsWith('Bearer ')) {
+                    const token = authHeader.substring(7);
+                    this.userManager.logoutUser(token);
+                }
+                res.json({ success: true });
+            } catch (error) {
+                res.status(500).json({ error: error.message });
+            }
+        });
+
+        this.app.get('/api/auth/me', (req, res) => {
+            if (req.user) {
+                res.json({ success: true, user: req.user });
+            } else {
+                res.status(401).json({ success: false, error: 'Not authenticated' });
+            }
+        });
+
+        // User profile routes
+        this.app.put('/api/user/profile', (req, res) => {
+            if (!req.user) {
+                return res.status(401).json({ error: 'Not authenticated' });
+            }
+            try {
+                const result = this.userManager.updateUserProfile(req.user.username, req.body);
+                res.json(result);
+            } catch (error) {
+                res.status(500).json({ error: error.message });
+            }
+        });
+
+        this.app.get('/api/user/workspace', (req, res) => {
+            if (!req.user) {
+                return res.status(401).json({ error: 'Not authenticated' });
+            }
+            try {
+                const workspace = this.userManager.getUserWorkspace(req.user.username);
+                res.json(workspace);
+            } catch (error) {
+                res.status(500).json({ error: error.message });
+            }
+        });
+
+        // Marketplace routes
+        this.app.get('/api/marketplace/search', (req, res) => {
+            try {
+                const { q, category, author, minRating, sortBy } = req.query;
+                const filters = { category, author, minRating: minRating ? parseFloat(minRating) : undefined, sortBy };
+                const results = this.marketplace.searchAutomations(q, filters);
+                res.json(results);
+            } catch (error) {
+                res.status(500).json({ error: error.message });
+            }
+        });
+
+        this.app.get('/api/marketplace/featured', (req, res) => {
+            try {
+                const { limit } = req.query;
+                const automations = this.marketplace.getFeaturedAutomations(parseInt(limit) || 10);
+                res.json(automations);
+            } catch (error) {
+                res.status(500).json({ error: error.message });
+            }
+        });
+
+        this.app.get('/api/marketplace/popular', (req, res) => {
+            try {
+                const { limit } = req.query;
+                const automations = this.marketplace.getPopularAutomations(parseInt(limit) || 10);
+                res.json(automations);
+            } catch (error) {
+                res.status(500).json({ error: error.message });
+            }
+        });
+
+        this.app.get('/api/marketplace/recent', (req, res) => {
+            try {
+                const { limit } = req.query;
+                const automations = this.marketplace.getRecentAutomations(parseInt(limit) || 10);
+                res.json(automations);
+            } catch (error) {
+                res.status(500).json({ error: error.message });
+            }
+        });
+
+        this.app.get('/api/marketplace/categories', (req, res) => {
+            try {
+                const categories = this.marketplace.getCategories();
+                const stats = this.marketplace.getCategoryStats();
+                res.json({ categories, stats });
+            } catch (error) {
+                res.status(500).json({ error: error.message });
+            }
+        });
+
+        this.app.get('/api/marketplace/category/:category', (req, res) => {
+            try {
+                const { category } = req.params;
+                const { limit } = req.query;
+                const automations = this.marketplace.getAutomationsByCategory(category, parseInt(limit) || 20);
+                res.json(automations);
+            } catch (error) {
+                res.status(500).json({ error: error.message });
+            }
+        });
+
+        this.app.get('/api/marketplace/automation/:id', (req, res) => {
+            try {
+                const { id } = req.params;
+                const automation = this.marketplace.getAutomation(id);
+                if (automation) {
+                    res.json(automation);
+                } else {
+                    res.status(404).json({ error: 'Automation not found' });
+                }
+            } catch (error) {
+                res.status(500).json({ error: error.message });
+            }
+        });
+
+        this.app.post('/api/marketplace/automation/:id/download', async (req, res) => {
+            try {
+                const { id } = req.params;
+                const result = await this.marketplace.downloadAutomation(id);
+                if (result.success) {
+                    res.json(result);
+                } else {
+                    res.status(404).json(result);
+                }
+            } catch (error) {
+                res.status(500).json({ error: error.message });
+            }
+        });
+
+        this.app.post('/api/marketplace/automation/:id/install', async (req, res) => {
+            if (!req.user) {
+                return res.status(401).json({ error: 'Not authenticated' });
+            }
+            try {
+                const { id } = req.params;
+                const result = await this.marketplace.installAutomation(id, req.user.username);
+                if (result.success) {
+                    // Also add to user's workspace
+                    await this.userManager.installAutomation(req.user.username, id);
+                    res.json(result);
+                } else {
+                    res.status(404).json(result);
+                }
+            } catch (error) {
+                res.status(500).json({ error: error.message });
+            }
+        });
+
+        this.app.post('/api/marketplace/automation/:id/rate', async (req, res) => {
+            if (!req.user) {
+                return res.status(401).json({ error: 'Not authenticated' });
+            }
+            try {
+                const { id } = req.params;
+                const { rating, review } = req.body;
+                const result = await this.marketplace.rateAutomation(id, rating, review, req.user.username);
+                if (result.success) {
+                    res.json(result);
+                } else {
+                    res.status(400).json(result);
+                }
+            } catch (error) {
+                res.status(500).json({ error: error.message });
+            }
+        });
+
+        this.app.post('/api/marketplace/publish', async (req, res) => {
+            if (!req.user) {
+                return res.status(401).json({ error: 'Not authenticated' });
+            }
+            try {
+                const result = await this.marketplace.publishAutomation(req.body, req.user.username);
+                if (result.success) {
+                    res.json(result);
+                } else {
+                    res.status(400).json(result);
+                }
+            } catch (error) {
+                res.status(500).json({ error: error.message });
+            }
+        });
+
+        this.app.put('/api/marketplace/automation/:id', async (req, res) => {
+            if (!req.user) {
+                return res.status(401).json({ error: 'Not authenticated' });
+            }
+            try {
+                const { id } = req.params;
+                const result = await this.marketplace.updateAutomation(id, req.body, req.user.username);
+                if (result.success) {
+                    res.json(result);
+                } else {
+                    res.status(400).json(result);
+                }
+            } catch (error) {
+                res.status(500).json({ error: error.message });
+            }
+        });
+
+        this.app.delete('/api/marketplace/automation/:id', async (req, res) => {
+            if (!req.user) {
+                return res.status(401).json({ error: 'Not authenticated' });
+            }
+            try {
+                const { id } = req.params;
+                const result = await this.marketplace.deleteAutomation(id, req.user.username);
+                if (result.success) {
+                    res.json(result);
+                } else {
+                    res.status(400).json(result);
+                }
+            } catch (error) {
+                res.status(500).json({ error: error.message });
+            }
+        });
+
+        this.app.get('/api/marketplace/stats', (req, res) => {
+            try {
+                const stats = this.marketplace.getMarketplaceStats();
+                res.json(stats);
+            } catch (error) {
+                res.status(500).json({ error: error.message });
+            }
+        });
     }
 
     async getAnalytics(type) {
@@ -651,12 +931,20 @@ class WebInterface {
         }
     }
 
+    startCleanupTasks() {
+        // Clean up expired sessions every hour
+        setInterval(() => {
+            this.userManager.cleanupExpiredSessions();
+        }, 60 * 60 * 1000); // 1 hour
+    }
+
     start() {
         this.server.listen(this.port, () => {
             console.log(`🎯 Automation Suite Web Interface running on http://localhost:${this.port}`);
             console.log(`📊 Dashboard: http://localhost:${this.port}`);
             console.log(`🔧 API: http://localhost:${this.port}/api`);
             console.log(`📡 WebSocket: ws://localhost:${this.port}`);
+            console.log(`👥 Multi-user platform with marketplace enabled`);
         });
     }
 }
